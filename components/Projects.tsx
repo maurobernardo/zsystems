@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
 
@@ -12,17 +13,20 @@ export default function Projects() {
 
   const projects = [
     {
+      id: 'ucm',
       title: 'Sistema Académico UCM-FEG',
       category: language === 'pt' ? 'Sistema Web' : 'Web System',
       description: language === 'pt' 
         ? 'Sistema web para facilitar o acesso às informações acadêmicas dos estudantes. Permite consultar avisos, controlar créditos, enviar comprovativos de pagamento e acompanhar validações. Inclui assistente virtual com voz para responder dúvidas.'
         : 'Web system to facilitate access to students\' academic information. Allows checking notices, controlling credits, sending payment receipts, and tracking validations. Includes a voice virtual assistant to answer questions.',
-      technologies: ['React', 'TypeScript', 'Laravel', 'PHP', 'MySQL', 'Tailwind CSS'],
+      technologies: ['React', 'TypeScript', 'Laravel', 'PHP'],
       gradient: 'from-blue-600 to-indigo-600',
       image: '/images/UCM.png',
-      link: '#',
+      link: 'https://deyril-marlon.vercel.app/',
+      imagesPath: '/Projectos/UCM',
     },
     {
+      id: 'deyril',
       title: 'Portfólio Pessoal – Deyril Marlon',
       category: language === 'pt' ? 'Portfólio Web' : 'Web Portfolio',
       description: language === 'pt'
@@ -32,8 +36,10 @@ export default function Projects() {
       gradient: 'from-purple-600 to-pink-600',
       image: '/images/Deyril.png',
       link: 'https://deyril-marlon.vercel.app/',
+      imagesPath: '/Projectos/Deyril',
     },
     {
+      id: 'feg',
       title: 'Gestão de Projeto de Fim do Curso (Laravel/PHP)',
       category: language === 'pt' ? 'Sistema de Gestão' : 'Management System',
       description: language === 'pt'
@@ -43,6 +49,7 @@ export default function Projects() {
       gradient: 'from-red-600 to-orange-600',
       image: '/images/Feg.png',
       link: '#',
+      imagesPath: null,
     },
   ]
 
@@ -117,7 +124,7 @@ export default function Projects() {
 
               {/* Enhanced Project Image */}
               <div className="relative h-52 w-full overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-70 group-hover:opacity-90 transition-opacity duration-500`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-80`}></div>
                 {project.image ? (
                   <Image
                     src={project.image}
@@ -155,15 +162,15 @@ export default function Projects() {
 
               {/* Enhanced Content */}
               <div className="px-6 pb-6 relative z-10">
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-secondary-light transition-colors duration-300">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-secondary-light transition-colors duration-300">
                   {project.title}
                 </h3>
-                <p className="text-gray-300 mb-5 leading-relaxed text-sm group-hover:text-gray-200 transition-colors duration-300">
+                <p className="text-gray-300 mb-3 leading-relaxed text-sm group-hover:text-gray-200 transition-colors duration-300">
                   {project.description}
                 </p>
 
                 {/* Enhanced Technologies */}
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2 mb-0">
                   {project.technologies.map((tech, techIndex) => (
                     <span
                       key={techIndex}
@@ -174,18 +181,55 @@ export default function Projects() {
                   ))}
                 </div>
 
-                {/* Enhanced View Project Link */}
-                <a
-                  href={project.link}
-                  target={project.link !== '#' ? '_blank' : undefined}
-                  rel={project.link !== '#' ? 'noopener noreferrer' : undefined}
-                  className="group/link inline-flex items-center justify-center gap-2 w-full mt-4 px-5 py-3.5 bg-gradient-to-r from-secondary/25 to-secondary/15 hover:from-secondary/35 hover:to-secondary/25 border border-secondary/40 hover:border-secondary/60 rounded-xl transition-all duration-300 text-secondary-light hover:text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:shadow-secondary/30 hover:scale-[1.02]"
-                >
-                  <span>{t('projects.viewProject')}</span>
-                  <svg className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </a>
+                {/* Action Buttons - Always at the bottom */}
+                <div className="flex flex-col gap-3 mt-2">
+                  {project.imagesPath ? (
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="group/details inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 bg-gradient-to-r from-secondary/30 to-secondary/20 hover:from-secondary/40 hover:to-secondary/30 border border-secondary/50 hover:border-secondary/70 rounded-xl transition-all duration-300 text-white hover:text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:shadow-secondary/40 hover:scale-[1.02]"
+                    >
+                      <svg className="w-4 h-4 group-hover/details:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      <span>{language === 'pt' ? 'Ver Detalhes' : 'View Details'}</span>
+                    </Link>
+                  ) : (
+                    <button
+                      disabled
+                      className="inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 bg-gradient-to-r from-gray-600/20 to-gray-600/10 border border-gray-600/30 rounded-xl text-gray-500 font-semibold text-sm cursor-not-allowed opacity-50"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      <span>{language === 'pt' ? 'Ver Detalhes' : 'View Details'}</span>
+                    </button>
+                  )}
+                  {project.link && project.link !== '#' ? (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/link inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 bg-gradient-to-r from-secondary/25 to-secondary/15 hover:from-secondary/35 hover:to-secondary/25 border border-secondary/40 hover:border-secondary/60 rounded-xl transition-all duration-300 text-secondary-light hover:text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:shadow-secondary/30 hover:scale-[1.02]"
+                    >
+                      <span>{t('projects.viewProject')}</span>
+                      <svg className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <button
+                      disabled
+                      className="inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 bg-gradient-to-r from-gray-600/20 to-gray-600/10 border border-gray-600/30 rounded-xl text-gray-500 font-semibold text-sm cursor-not-allowed opacity-50"
+                    >
+                      <span>{t('projects.viewProject')}</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))}
