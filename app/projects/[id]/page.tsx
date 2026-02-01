@@ -61,25 +61,6 @@ export default function ProjectDetails() {
   const [images, setImages] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!project) {
-      router.push('/#projects')
-      return
-    }
-
-    // Load images (1.png to 9.png)
-    const imagePaths: string[] = []
-    for (let i = 1; i <= 9; i++) {
-      imagePaths.push(`${project.imagesPath}/${i}.png`)
-    }
-    setImages(imagePaths)
-    setLoading(false)
-  }, [project, router])
-
-  if (!project) {
-    return null
-  }
-
   const openLightbox = useCallback((index: number) => {
     setSelectedImage(index)
     document.body.style.overflow = 'hidden'
@@ -103,6 +84,21 @@ export default function ProjectDetails() {
   }, [images.length])
 
   useEffect(() => {
+    if (!project) {
+      router.push('/#projects')
+      return
+    }
+
+    // Load images (1.png to 9.png)
+    const imagePaths: string[] = []
+    for (let i = 1; i <= 9; i++) {
+      imagePaths.push(`${project.imagesPath}/${i}.png`)
+    }
+    setImages(imagePaths)
+    setLoading(false)
+  }, [project, router])
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedImage !== null) {
         if (e.key === 'Escape') {
@@ -118,6 +114,10 @@ export default function ProjectDetails() {
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedImage, closeLightbox, navigateImage])
+
+  if (!project) {
+    return null
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-primary via-primary-dark to-primary">
