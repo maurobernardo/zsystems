@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import AnnouncementPopup from '@/components/AnnouncementPopup'
 
 // Project data - same as in Projects.tsx
 const projectsData = {
@@ -312,6 +313,7 @@ export default function ProjectDetails() {
       )}
 
       <Footer />
+      <AnnouncementPopup />
     </main>
   )
 }

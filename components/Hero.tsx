@@ -37,10 +37,10 @@ export default function Hero() {
       </div>
 
       {/* Enhanced Content aligned with header logo */}
-      <div className="relative z-10 pt-4 md:pt-6">
+      <div className="relative z-10 pt-8 md:pt-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Enhanced Content with better animations */}
-          <div className="text-white max-w-4xl pl-16 md:pl-20 lg:pl-24">
+          <div className="text-white max-w-4xl pl-4 md:pl-20 lg:pl-24">
           <p className="text-secondary-light text-xs md:text-sm font-semibold uppercase tracking-wide mb-4 animate-fade-in">
             {t('hero.tagline')}
           </p>

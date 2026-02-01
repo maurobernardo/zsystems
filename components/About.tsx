@@ -47,7 +47,7 @@ export default function About() {
             </p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
               <span className="bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
-                {t('about.title')}
+              {t('about.title')}
               </span>
             </h2>
             <p className="text-gray-200 text-lg mb-12 leading-relaxed max-w-3xl mx-auto animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>

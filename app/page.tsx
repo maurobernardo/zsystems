@@ -5,6 +5,7 @@ import Team from '@/components/Team'
 import Projects from '@/components/Projects'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
+import AnnouncementPopup from '@/components/AnnouncementPopup'
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Projects />
       <Contact />
       <Footer />
+      <AnnouncementPopup />
     </main>
   )
 }
