@@ -10,7 +10,7 @@ export default function Hero() {
   const t = (key: string) => getTranslation(language, key)
 
   return (
-    <section id="home" className="bg-primary section-padding relative overflow-hidden min-h-[90vh] flex items-center">
+    <section id="home" className="bg-primary relative overflow-hidden min-h-[85vh] md:min-h-[90vh] flex items-start md:items-center pt-4 md:pt-24 pb-8 md:pb-24">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -37,19 +37,19 @@ export default function Hero() {
       </div>
 
       {/* Enhanced Content aligned with header logo */}
-      <div className="relative z-10 pt-8 md:pt-6">
+      <div className="relative z-10 w-full mt-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Enhanced Content with better animations */}
           <div className="text-white max-w-4xl pl-4 md:pl-20 lg:pl-24">
-          <p className="text-secondary-light text-xs md:text-sm font-semibold uppercase tracking-wide mb-4 animate-fade-in">
+          <p className="text-secondary-light text-xs md:text-sm font-semibold uppercase tracking-wide mb-2 md:mb-4 animate-fade-in">
             {t('hero.tagline')}
           </p>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
+          <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 md:mb-6 leading-tight animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
             <span className="inline-block bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
               {t('hero.title')}
             </span>
           </h1>
-          <p className="text-gray-200 text-base md:text-lg lg:text-xl mb-10 leading-relaxed max-w-2xl animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>
+          <p className="text-gray-200 text-sm md:text-lg lg:text-xl mb-6 md:mb-10 leading-relaxed max-w-2xl animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>
             {t('hero.description')}
           </p>
           <div className="animate-bounce-in" style={{ animationDelay: '0.6s' }}>

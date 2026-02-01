@@ -124,7 +124,7 @@ export default function ProjectDetails() {
     <main className="min-h-screen bg-gradient-to-b from-primary via-primary-dark to-primary">
       <Header />
       
-      <section className="section-padding relative overflow-hidden pt-24">
+      <section className="relative overflow-hidden pt-4 md:pt-24 pb-8 md:pb-24">
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-float"></div>
@@ -135,7 +135,7 @@ export default function ProjectDetails() {
           {/* Back Button with Badge */}
           <Link 
             href="/#projects"
-            className="inline-flex items-center gap-3 text-secondary-light hover:text-white mb-8 group animate-slide-up-fade transition-colors duration-300"
+            className="inline-flex items-center gap-3 text-secondary-light hover:text-white mb-4 md:mb-8 group animate-slide-up-fade transition-colors duration-300"
           >
             <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -149,18 +149,18 @@ export default function ProjectDetails() {
           </Link>
 
           {/* Project Header */}
-          <div className="mb-12 animate-slide-up-fade" style={{ animationDelay: '0.1s' }}>
-            <div className="inline-block mb-4">
-              <span className={`px-4 py-2 bg-gradient-to-r ${project.gradient} rounded-full text-white text-sm font-semibold`}>
+          <div className="mb-6 md:mb-12 animate-slide-up-fade" style={{ animationDelay: '0.1s' }}>
+            <div className="inline-block mb-2 md:mb-4">
+              <span className={`px-3 md:px-4 py-1.5 md:py-2 bg-gradient-to-r ${project.gradient} rounded-full text-white text-xs md:text-sm font-semibold`}>
                 {project.category[language]}
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
+            <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-6 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
               <span className="bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent">
                 {project.title[language]}
               </span>
             </h1>
-            <p className="text-gray-300 text-lg md:text-xl max-w-3xl leading-relaxed animate-slide-up-fade" style={{ animationDelay: '0.3s' }}>
+            <p className="text-gray-300 text-sm md:text-xl max-w-3xl leading-relaxed animate-slide-up-fade" style={{ animationDelay: '0.3s' }}>
               {project.description[language]}
             </p>
           </div>
