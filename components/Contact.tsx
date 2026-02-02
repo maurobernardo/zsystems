@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
 
@@ -17,15 +18,72 @@ export default function Contact() {
   })
 
   const [focusedField, setFocusedField] = useState<string | null>(null)
+  const [isSending, setIsSending] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    const message = language === 'pt' 
-      ? 'Obrigado pela sua mensagem! Entraremos em contacto em breve.'
-      : 'Thank you for your message! We will get back to you soon.'
-    alert(message)
-    setFormData({ name: '', email: '', phone: '', company: '', message: '' })
+    setSubmitStatus(null)
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+
+    if (!serviceId || !templateId || !publicKey) {
+      setSubmitStatus({
+        type: 'error',
+        message:
+          language === 'pt'
+            ? 'Email não configurado. Defina as variáveis NEXT_PUBLIC_EMAILJS_* e tente novamente.'
+            : 'Email is not configured. Set NEXT_PUBLIC_EMAILJS_* env vars and try again.',
+      })
+      return
+    }
+
+    try {
+      setIsSending(true)
+
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          // Compatible with EmailJS template fields like {{name}}, {{email}}, {{title}}
+          title: language === 'pt' ? 'Novo contacto - Website' : 'New contact - Website',
+          name: formData.name,
+          email: formData.email,
+
+          // Also keep these for templates that use {{from_name}}, {{from_email}}
+          from_name: formData.name,
+          from_email: formData.email,
+
+          phone: formData.phone,
+          company: formData.company,
+          message: formData.message,
+          language,
+        },
+        { publicKey }
+      )
+
+      setSubmitStatus({
+        type: 'success',
+        message:
+          language === 'pt'
+            ? 'Obrigado pela sua mensagem! Entraremos em contacto em breve.'
+            : 'Thank you for your message! We will get back to you soon.',
+      })
+      setFormData({ name: '', email: '', phone: '', company: '', message: '' })
+    } catch (err) {
+      console.error('EmailJS error:', err)
+      setSubmitStatus({
+        type: 'error',
+        message:
+          language === 'pt'
+            ? 'Não foi possível enviar agora. Por favor, tente novamente em alguns instantes.'
+            : 'Could not send right now. Please try again in a moment.',
+      })
+    } finally {
+      setIsSending(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -191,6 +249,17 @@ export default function Contact() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
+              {submitStatus && (
+                <div
+                  className={`rounded-xl border px-4 py-3 text-sm ${
+                    submitStatus.type === 'success'
+                      ? 'bg-green-500/10 border-green-500/30 text-green-200'
+                      : 'bg-red-500/10 border-red-500/30 text-red-200'
+                  }`}
+                >
+                  {submitStatus.message}
+                </div>
+              )}
               {[
                 { name: 'name', label: t('contact.form.name'), placeholder: t('contact.form.namePlaceholder'), type: 'text', required: true },
                 { name: 'email', label: t('contact.form.email'), placeholder: t('contact.form.emailPlaceholder'), type: 'email', required: true },
@@ -248,10 +317,13 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full btn-primary justify-center text-base py-4 group shadow-xl hover:shadow-2xl hover:shadow-secondary/40 mt-4 animate-bounce-in"
+                disabled={isSending}
+                className="w-full btn-primary justify-center text-base py-4 group shadow-xl hover:shadow-2xl hover:shadow-secondary/40 mt-4 animate-bounce-in disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
                 style={{ animationDelay: '0.8s' }}
               >
-                <span className="font-semibold">{t('contact.form.send')}</span>
+                <span className="font-semibold">
+                  {isSending ? (language === 'pt' ? 'Enviando...' : 'Sending...') : t('contact.form.send')}
+                </span>
                 <svg className="w-5 h-5 group-hover:translate-y-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>

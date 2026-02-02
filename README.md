@@ -53,12 +53,33 @@ A modern, professional website for Z-Systems, a technology company focused on so
 npm install
 ```
 
-2. Run the development server:
+2. Configure environment variables (EmailJS contact form):
+
+Create a `.env.local` file in the project root with:
+
+```bash
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+In your EmailJS template, map these variables (template params):
+- `title` (optional)
+- `name`
+- `email`
+- `from_name` (optional)
+- `from_email` (optional)
+- `phone`
+- `company`
+- `message`
+- `language`
+
+3. Run the development server:
 ```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## 🏗️ Project Structure
 
