@@ -5,7 +5,7 @@ export const translations = {
     // Header
     header: {
       address: 'Beira, Mozambique',
-      email: 'info@z-systems.com',
+      email: 'zsystems9@gmail.com',
       officeHours: 'Office Hours: 9:00 AM to 06:00 PM',
       callUs: 'Call us today',
       home: 'Home',
@@ -115,10 +115,10 @@ export const translations = {
         company: 'Company Name',
         message: 'Message *',
         send: 'Send Message',
-        namePlaceholder: 'John Doe',
-        emailPlaceholder: 'john@example.com',
+        namePlaceholder: 'Mauro Zibane',
+        emailPlaceholder: 'zsystems9@gmail.com',
         phonePlaceholder: '870107006',
-        companyPlaceholder: 'Your Company',
+        companyPlaceholder: 'Z-Systems',
         messagePlaceholder: 'Tell us about your project...',
       },
       info: {
@@ -146,7 +146,7 @@ export const translations = {
     // Header
     header: {
       address: 'Beira, Moçambique',
-      email: 'info@z-systems.com',
+      email: 'zsystems9@gmail.com',
       officeHours: 'Horário de Funcionamento: 9:00 às 18:00',
       callUs: 'Ligue-nos hoje',
       home: 'Início',
@@ -256,10 +256,10 @@ export const translations = {
         company: 'Nome da Empresa',
         message: 'Mensagem *',
         send: 'Enviar Mensagem',
-        namePlaceholder: 'João Silva',
-        emailPlaceholder: 'joao@exemplo.com',
+        namePlaceholder: 'Mauro Zibane',
+        emailPlaceholder: 'zsystems9@gmail.com',
         phonePlaceholder: '870107006',
-        companyPlaceholder: 'A Sua Empresa',
+        companyPlaceholder: 'Z-Systems',
         messagePlaceholder: 'Conte-nos sobre o seu projeto...',
       },
       info: {
