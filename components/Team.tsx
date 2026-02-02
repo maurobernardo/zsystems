@@ -10,6 +10,13 @@ export default function Team() {
   const t = (key: string) => getTranslation(language, key)
   const [isVisible, setIsVisible] = useState(false)
 
+  const whatsappNumber = '258870107006'
+  const whatsappMessage =
+    language === 'pt'
+      ? `Olá Z-Systems! Quero juntar-me à equipa.\n\nNome completo: \nIdade: \nÁrea de atuação: `
+      : `Hello Z-Systems! I'd like to join the team.\n\nFull name: \nAge: \nArea of expertise: `
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -242,7 +249,13 @@ export default function Team() {
               ? 'Estamos sempre à procura de pessoas talentosas para se juntarem à nossa equipa em crescimento.'
               : 'We\'re always looking for talented individuals to join our growing team.'}
           </p>
-          <a href="#contact" className="btn-primary text-lg px-8 py-4 group shadow-xl hover:shadow-2xl hover:shadow-secondary/40 animate-bounce-in" style={{ animationDelay: '0.8s' }}>
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-lg px-8 py-4 group shadow-xl hover:shadow-2xl hover:shadow-secondary/40 animate-bounce-in"
+            style={{ animationDelay: '0.8s' }}
+          >
             <span className="font-semibold">{t('team.join')}</span>
             <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
