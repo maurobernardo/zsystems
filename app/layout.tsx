@@ -8,6 +8,10 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Z-Systems | Smart, Scalable IT Solutions for Your Business',
   description: 'We help you build, manage, and grow through innovative tech services. Web systems, enterprise software, APIs, dashboards and digital platforms.',
+  icons: {
+    icon: '/images/logo.png',
+    apple: '/images/logo.png',
+  },
 }
 
 export default function RootLayout({

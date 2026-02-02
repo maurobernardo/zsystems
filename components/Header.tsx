@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
 
@@ -23,8 +24,16 @@ export default function Header() {
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-secondary-light via-secondary to-primary rounded-lg flex items-center justify-center shadow-lg hover:scale-110 hover:rotate-3 transition-all duration-300 group-hover:shadow-xl" style={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)' }}>
-                <span className="text-white font-bold text-xl">Z</span>
+              <div
+                className="w-12 h-12 md:w-14 md:h-14 bg-white/90 rounded-xl relative shadow-lg hover:scale-110 hover:rotate-3 transition-all duration-300 group-hover:shadow-xl overflow-hidden"
+                style={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)' }}
+              >
+                <Logo
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 56px, 48px"
+                  className="object-contain scale-[1.75]"
+                />
               </div>
               <span className="text-white font-bold text-xl group-hover:text-secondary-light transition-colors duration-300">Z-Systems</span>
             </Link>

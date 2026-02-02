@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
 
@@ -21,8 +22,15 @@ export default function Footer() {
           {/* Enhanced Company Info */}
           <div className="animate-slide-up-fade">
             <div className="flex items-center gap-3 mb-4 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-secondary-light via-secondary to-primary rounded-lg flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300" style={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)' }}>
-                <span className="text-white font-bold text-xl">Z</span>
+              <div
+                className="w-12 h-12 md:w-14 md:h-14 bg-white/90 rounded-xl relative shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 overflow-hidden"
+                style={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)' }}
+              >
+                <Logo
+                  fill
+                  sizes="(min-width: 768px) 56px, 48px"
+                  className="object-contain scale-[1.75]"
+                />
               </div>
               <span className="font-bold text-xl bg-gradient-to-r from-white to-secondary-light bg-clip-text text-transparent">Z-Systems</span>
             </div>
