@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import AnnouncementPopup from '@/components/AnnouncementPopup'
 
 // Project data - same as in Projects.tsx
 const projectsData = {
@@ -48,6 +47,25 @@ const projectsData = {
     image: '/images/Deyril.png',
     link: 'https://deyril-marlon.vercel.app/',
     imagesPath: '/Projectos/Deyril',
+  },
+  samson: {
+    title: {
+      pt: 'Portfólio do IT Manager da Anantara Bazaruto',
+      en: 'Anantara Bazaruto IT Manager Portfolio'
+    },
+    category: {
+      pt: 'Portfólio Web',
+      en: 'Web Portfolio'
+    },
+    description: {
+      pt: 'Portfólio profissional moderno desenvolvido em React e Tailwind CSS, com suporte a modo escuro/claro, tradução português/inglês, mapa de localização e hospedagem no Vercel.',
+      en: 'Modern professional portfolio developed in React and Tailwind CSS, with dark/light mode support, Portuguese/English translation, location map, and hosted on Vercel.'
+    },
+    technologies: ['React', 'Tailwind CSS'],
+    gradient: 'from-emerald-600 to-teal-600',
+    image: '/images/Samson.png',
+    link: 'https://samson-chifamba.vercel.app/',
+    imagesPath: '/Projectos/Samson',
   },
 }
 
@@ -90,14 +108,18 @@ export default function ProjectDetails() {
       return
     }
 
-    // Load images (1.png to 9.png)
+    // Load images - support different image counts per project
     const imagePaths: string[] = []
-    for (let i = 1; i <= 9; i++) {
-      imagePaths.push(`${project.imagesPath}/${i}.png`)
+    if (project.imagesPath) {
+      // Samson project has 1-12 images
+      const maxImages = projectId === 'samson' ? 12 : 9
+      for (let i = 1; i <= maxImages; i++) {
+        imagePaths.push(`${project.imagesPath}/${i}.png`)
+      }
     }
     setImages(imagePaths)
     setLoading(false)
-  }, [project, router])
+  }, [project, router, projectId])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -148,60 +170,114 @@ export default function ProjectDetails() {
             </span>
           </Link>
 
+          {/* Project Cover Image */}
+          {project.image && (
+            <div className="mb-8 md:mb-12 relative h-80 md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden border border-secondary/20 shadow-2xl animate-slide-up-fade" style={{ animationDelay: '0.1s' }}>
+              <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-80`}></div>
+              <Image
+                src={project.image}
+                alt={project.title[language]}
+                fill
+                className="object-cover"
+                priority
+                quality={90}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent"></div>
+            </div>
+          )}
+
           {/* Project Header */}
-          <div className="mb-6 md:mb-12 animate-slide-up-fade" style={{ animationDelay: '0.1s' }}>
-            <div className="inline-block mb-2 md:mb-4">
-              <span className={`px-3 md:px-4 py-1.5 md:py-2 bg-gradient-to-r ${project.gradient} rounded-full text-white text-xs md:text-sm font-semibold`}>
+          <div className="mb-8 md:mb-12 animate-slide-up-fade" style={{ animationDelay: '0.2s' }}>
+            <div className="inline-block mb-3 md:mb-4">
+              <span className={`px-4 md:px-5 py-2 md:py-2.5 bg-gradient-to-r ${project.gradient} rounded-full text-white text-sm md:text-base font-bold shadow-lg`}>
                 {project.category[language]}
               </span>
             </div>
-            <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-6 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 animate-fade-in-scale" style={{ animationDelay: '0.3s' }}>
               <span className="bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent">
                 {project.title[language]}
               </span>
             </h1>
-            <p className="text-gray-300 text-sm md:text-xl max-w-3xl leading-relaxed animate-slide-up-fade" style={{ animationDelay: '0.3s' }}>
+            <p className="text-gray-300 text-base md:text-xl max-w-4xl leading-relaxed animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>
               {project.description[language]}
             </p>
           </div>
 
-          {/* Technologies */}
-          <div className="mb-12 animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>
-            <h3 className="text-white font-semibold mb-4 text-lg">
-              {language === 'pt' ? 'Tecnologias Utilizadas' : 'Technologies Used'}
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              {project.technologies.map((tech, index) => (
-                <span
-                  key={index}
-                  className="px-4 py-2 bg-secondary/20 text-secondary-light text-sm font-semibold rounded-full border border-secondary/30 hover:border-secondary/50 hover:bg-secondary/30 transition-all duration-300 animate-fade-in-scale"
-                  style={{ animationDelay: `${0.5 + index * 0.1}s` }}
-                >
-                  {tech}
-                </span>
-              ))}
+          {/* Project Info Section */}
+          <div className="mb-12 grid md:grid-cols-2 gap-6 md:gap-8">
+            {/* Technologies */}
+            <div className="bg-primary-dark/60 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-secondary/20 animate-slide-up-fade" style={{ animationDelay: '0.5s' }}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-secondary-light via-secondary to-primary rounded-xl flex items-center justify-center shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                </div>
+                <h3 className="text-white font-bold text-xl">
+                  {language === 'pt' ? 'Tecnologias Utilizadas' : 'Technologies Used'}
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {project.technologies.map((tech, index) => (
+                  <span
+                    key={index}
+                    className="px-4 py-2 bg-secondary/20 text-secondary-light text-sm font-semibold rounded-full border border-secondary/30 hover:border-secondary/50 hover:bg-secondary/30 transition-all duration-300"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
+
+            {/* Project Links */}
+            {project.link && project.link !== '#' && (
+              <div className="bg-primary-dark/60 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-secondary/20 animate-slide-up-fade" style={{ animationDelay: '0.6s' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-secondary-light via-secondary to-primary rounded-xl flex items-center justify-center shadow-lg">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </div>
+                  <h3 className="text-white font-bold text-xl">
+                    {language === 'pt' ? 'Links do Projeto' : 'Project Links'}
+                  </h3>
+                </div>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-secondary/30 to-secondary/20 hover:from-secondary/40 hover:to-secondary/30 border border-secondary/50 hover:border-secondary/70 rounded-xl transition-all duration-300 text-white hover:text-white font-semibold shadow-lg hover:shadow-xl hover:shadow-secondary/40 hover:scale-[1.02]"
+                >
+                  <span>{language === 'pt' ? 'Visitar Projeto' : 'Visit Project'}</span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Gallery */}
           {loading ? (
             <div className="grid md:grid-cols-3 gap-4">
-              {[...Array(9)].map((_, i) => (
+              {[...Array(images.length || 9)].map((_, i) => (
                 <div key={i} className="aspect-video bg-primary-dark/50 rounded-xl animate-pulse"></div>
               ))}
             </div>
-          ) : (
+          ) : images.length > 0 ? (
             <div className="mb-12">
-              <h3 className="text-white font-semibold mb-6 text-lg animate-slide-up-fade" style={{ animationDelay: '0.6s' }}>
-                {language === 'pt' ? 'Galeria de Imagens' : 'Image Gallery'}
+              <h3 className="text-white font-semibold mb-6 text-xl md:text-2xl animate-slide-up-fade" style={{ animationDelay: '0.6s' }}>
+                <span className="bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent">
+                  {language === 'pt' ? 'Galeria de Imagens' : 'Image Gallery'}
+                </span>
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {images.map((imagePath, index) => (
                   <div
                     key={index}
-                    className="group relative aspect-video bg-primary-dark/80 backdrop-blur-sm rounded-xl overflow-hidden border border-secondary/20 hover:border-secondary/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-secondary/30 cursor-pointer animate-slide-up-fade"
+                    className="group relative aspect-video bg-primary-dark/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-secondary/20 hover:border-secondary/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-secondary/30 cursor-pointer animate-slide-up-fade"
                     style={{ 
-                      animationDelay: `${0.7 + index * 0.1}s`,
+                      animationDelay: `${0.7 + index * 0.05}s`,
                       boxShadow: '0 4px 25px rgba(59, 130, 246, 0.15)'
                     }}
                     onClick={() => openLightbox(index)}
@@ -213,36 +289,23 @@ export default function ProjectDetails() {
                       className="object-cover group-hover:scale-110 transition-transform duration-700"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-16 h-16 bg-secondary/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <div className="w-16 h-16 bg-secondary/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl">
                         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
                         </svg>
                       </div>
                     </div>
+                    <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1 text-white text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {index + 1} / {images.length}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-          )}
+          ) : null}
 
-          {/* CTA */}
-          {project.link && project.link !== '#' && (
-            <div className="text-center animate-slide-up-fade" style={{ animationDelay: '1.5s' }}>
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary text-lg px-8 py-4 group inline-flex items-center gap-3 shadow-xl hover:shadow-2xl hover:shadow-secondary/40"
-              >
-                <span className="font-semibold">{language === 'pt' ? 'Visitar Projeto' : 'Visit Project'}</span>
-                <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
-            </div>
-          )}
         </div>
       </section>
 
@@ -313,7 +376,6 @@ export default function ProjectDetails() {
       )}
 
       <Footer />
-      <AnnouncementPopup />
     </main>
   )
 }

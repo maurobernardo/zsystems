@@ -9,7 +9,7 @@ import { getTranslation } from '@/lib/translations'
 export default function Projects() {
   const { language } = useLanguage()
   const t = (key: string) => getTranslation(language, key)
-  const [visibleProjects, setVisibleProjects] = useState<number[]>([])
+  const [visibleCount, setVisibleCount] = useState(3)
 
   const projects = [
     {
@@ -39,6 +39,19 @@ export default function Projects() {
       imagesPath: '/Projectos/Deyril',
     },
     {
+      id: 'samson',
+      title: language === 'pt' ? 'Portfólio do IT Manager da Anantara Bazaruto' : 'Anantara Bazaruto IT Manager Portfolio',
+      category: language === 'pt' ? 'Portfólio Web' : 'Web Portfolio',
+      description: language === 'pt'
+        ? 'Portfólio profissional moderno desenvolvido em React e Tailwind CSS, com suporte a modo escuro/claro, tradução português/inglês, mapa de localização e hospedagem no Vercel.'
+        : 'Modern professional portfolio developed in React and Tailwind CSS, with dark/light mode support, Portuguese/English translation, location map, and hosted on Vercel.',
+      technologies: ['React', 'Tailwind CSS'],
+      gradient: 'from-emerald-600 to-teal-600',
+      image: '/images/Samson.png',
+      link: 'https://samson-chifamba.vercel.app/',
+      imagesPath: '/Projectos/Samson',
+    },
+    {
       id: 'feg',
       title: 'Gestão de Projeto de Fim do Curso (Laravel/PHP)',
       category: language === 'pt' ? 'Sistema de Gestão' : 'Management System',
@@ -53,24 +66,13 @@ export default function Projects() {
     },
   ]
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = parseInt(entry.target.getAttribute('data-index') || '0')
-            setVisibleProjects((prev) => [...prev, index])
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
+  const visibleProjectsList = projects.slice(0, visibleCount)
+  const hasMore = visibleCount < projects.length
 
-    const cards = document.querySelectorAll('[data-project-card]')
-    cards.forEach((card) => observer.observe(card))
+  const loadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + 3, projects.length))
+  }
 
-    return () => observer.disconnect()
-  }, [])
 
   return (
     <section id="projects" className="bg-gradient-to-b from-primary via-primary-dark to-primary section-padding relative overflow-hidden">
@@ -102,19 +104,14 @@ export default function Projects() {
 
         {/* Enhanced Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
+          {visibleProjectsList.map((project, index) => (
             <div
-              key={index}
+              key={`${project.id}-${index}`}
               data-project-card
               data-index={index}
-              className={`
-                group relative bg-primary-dark/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl
-                border border-secondary/20
-                ${visibleProjects.includes(index) ? 'animate-slide-up-fade animate-fade-in-scale' : 'opacity-0'}
-                hover:shadow-2xl hover:shadow-secondary/30 transition-all duration-500 hover:-translate-y-2
-              `}
+              className="group relative bg-primary-dark/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border border-secondary/20 animate-slide-up-fade animate-fade-in-scale hover:shadow-2xl hover:shadow-secondary/30 transition-all duration-500 hover:-translate-y-2"
               style={{ 
-                animationDelay: `${0.3 + index * 0.15}s`,
+                animationDelay: `${0.3 + index * 0.1}s`,
                 boxShadow: '0 4px 25px rgba(59, 130, 246, 0.15)'
               }}
             >
@@ -234,6 +231,21 @@ export default function Projects() {
             </div>
           ))}
         </div>
+
+        {/* Load More Button */}
+        {hasMore && (
+          <div className="text-center mt-12 animate-slide-up-fade">
+            <button
+              onClick={loadMore}
+              className="btn-primary text-lg px-8 py-4 group shadow-xl hover:shadow-2xl hover:shadow-secondary/40"
+            >
+              <span className="font-semibold">{language === 'pt' ? 'Ver Mais Projetos' : 'Load More Projects'}</span>
+              <svg className="w-5 h-5 group-hover:translate-y-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {/* Enhanced CTA */}
         <div className="text-center mt-16 animate-slide-up-fade" style={{ animationDelay: '0.9s' }}>

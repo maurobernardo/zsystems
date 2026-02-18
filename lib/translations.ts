@@ -91,6 +91,11 @@ export const translations = {
         role: 'Marketing Leader',
         bio: 'Expert in digital marketing strategies and communication. With a background in Law, contributes to strategic decisions aligned with ethics and company growth.',
       },
+      designer: {
+        name: 'Vandro Correia',
+        role: 'UX/UI Designer',
+        bio: 'Creative designer focused on creating intuitive and beautiful user experiences. Specialized in interface design and user experience optimization.',
+      },
     },
     // Projects
     projects: {
@@ -231,6 +236,11 @@ export const translations = {
         name: 'Daniel Francisco',
         role: 'Líder de Marketing',
         bio: 'Especialista em estratégias de marketing digital e comunicação. Com formação em Direito, contribui para decisões estratégicas alinhadas à ética e ao crescimento da empresa.',
+      },
+      designer: {
+        name: 'Vandro Correia',
+        role: 'UX/UI Designer',
+        bio: 'Designer criativo focado em criar experiências de usuário intuitivas e bonitas. Especializado em design de interfaces e otimização de experiência do usuário.',
       },
     },
     // Projects
