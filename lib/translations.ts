@@ -88,7 +88,7 @@ export const translations = {
       },
       marketing: {
         name: 'Daniel Francisco',
-        role: 'Marketing Leader',
+        role: 'Marketing Director',
         bio: 'Expert in digital marketing strategies and communication. With a background in Law, contributes to strategic decisions aligned with ethics and company growth.',
       },
       designer: {
@@ -102,7 +102,7 @@ export const translations = {
         bio: 'Web developer focused on building modern, responsive and performant web applications for businesses.',
       },
       developer2: {
-        name: 'Helton Cunha Junior',
+        name: 'Helton Samo Cunha Jr',
         role: 'Web Developer',
         bio: 'Web developer dedicated to creating scalable and maintainable digital solutions.',
       },
@@ -244,7 +244,7 @@ export const translations = {
       },
       marketing: {
         name: 'Daniel Francisco',
-        role: 'Líder de Marketing',
+        role: 'Director de Marketing',
         bio: 'Especialista em estratégias de marketing digital e comunicação. Com formação em Direito, contribui para decisões estratégicas alinhadas à ética e ao crescimento da empresa.',
       },
       designer: {
@@ -258,7 +258,7 @@ export const translations = {
         bio: 'Desenvolvedor web focado em construir aplicações web modernas, responsivas e performáticas para empresas.',
       },
       developer2: {
-        name: 'Helton Cunha Junior',
+        name: 'Helton Samo Cunha Jr',
         role: 'Desenvolvedor Web',
         bio: 'Desenvolvedor web dedicado a criar soluções digitais escaláveis e fáceis de manter.',
       },
