@@ -13,6 +13,32 @@ export default function Projects() {
 
   const projects = [
     {
+      id: 'agro',
+      title: language === 'pt' ? 'Agro Tech Mozambique Website' : 'Agro Tech Mozambique Website',
+      category: language === 'pt' ? 'Website Empresarial' : 'Corporate Website',
+      description: language === 'pt'
+        ? 'Website institucional para Agro Tech Mozambique, apresentando serviços, projetos e presença digital da empresa no setor agrícola.'
+        : 'Corporate website for Agro Tech Mozambique, showcasing services, projects and company digital presence in the agricultural sector.',
+      technologies: ['React', 'Next.js', 'Tailwind CSS'],
+      gradient: 'from-green-600 to-lime-600',
+      image: '/Projectos/Agro/1.png',
+      link: 'https://agro-tech-mozambique.vercel.app/',
+      imagesPath: '/Projectos/Agro',
+    },
+    {
+      id: 'bioclean',
+      title: language === 'pt' ? 'BIOCLEAN ENVIRONMENT Website' : 'BIOCLEAN ENVIRONMENT Website',
+      category: language === 'pt' ? 'Website Empresarial' : 'Corporate Website',
+      description: language === 'pt'
+        ? 'Website institucional para BIOCLEAN ENVIRONMENT, destacando soluções e serviços ambientais da empresa.'
+        : 'Corporate website for BIOCLEAN ENVIRONMENT, highlighting the company\'s environmental solutions and services.',
+      technologies: ['React', 'Next.js', 'Tailwind CSS'],
+      gradient: 'from-cyan-600 to-blue-600',
+      image: '/Projectos/Bio/1.png',
+      link: 'https://bioclean-environment.vercel.app/pt',
+      imagesPath: '/Projectos/Bio',
+    },
+    {
       id: 'ucm',
       title: 'Sistema Académico UCM-FEG',
       category: language === 'pt' ? 'Sistema Web' : 'Web System',

@@ -67,6 +67,44 @@ const projectsData = {
     link: 'https://samson-chifamba.vercel.app/',
     imagesPath: '/Projectos/Samson',
   },
+  agro: {
+    title: {
+      pt: 'Agro Tech Mozambique Website',
+      en: 'Agro Tech Mozambique Website'
+    },
+    category: {
+      pt: 'Website Empresarial',
+      en: 'Corporate Website'
+    },
+    description: {
+      pt: 'Website institucional para Agro Tech Mozambique, apresentando serviços, projetos e presença digital da empresa no setor agrícola.',
+      en: 'Corporate website for Agro Tech Mozambique, showcasing services, projects and company digital presence in the agricultural sector.'
+    },
+    technologies: ['React', 'Next.js', 'Tailwind CSS'],
+    gradient: 'from-green-600 to-lime-600',
+    image: '/Projectos/Agro/1.png',
+    link: 'https://agro-tech-mozambique.vercel.app/',
+    imagesPath: '/Projectos/Agro',
+  },
+  bioclean: {
+    title: {
+      pt: 'BIOCLEAN ENVIRONMENT Website',
+      en: 'BIOCLEAN ENVIRONMENT Website'
+    },
+    category: {
+      pt: 'Website Empresarial',
+      en: 'Corporate Website'
+    },
+    description: {
+      pt: 'Website institucional para BIOCLEAN ENVIRONMENT, destacando soluções e serviços ambientais da empresa.',
+      en: 'Corporate website for BIOCLEAN ENVIRONMENT, highlighting the company\'s environmental solutions and services.'
+    },
+    technologies: ['React', 'Next.js', 'Tailwind CSS'],
+    gradient: 'from-cyan-600 to-blue-600',
+    image: '/Projectos/Bio/1.png',
+    link: 'https://bioclean-environment.vercel.app/pt',
+    imagesPath: '/Projectos/Bio',
+  },
 }
 
 export default function ProjectDetails() {
@@ -111,8 +149,12 @@ export default function ProjectDetails() {
     // Load images - support different image counts per project
     const imagePaths: string[] = []
     if (project.imagesPath) {
-      // Samson project has 1-12 images
-      const maxImages = projectId === 'samson' ? 12 : 9
+      const maxByProject: Record<string, number> = {
+        samson: 12,
+        agro: 7,
+        bioclean: 8,
+      }
+      const maxImages = maxByProject[projectId] ?? 9
       for (let i = 1; i <= maxImages; i++) {
         imagePaths.push(`${project.imagesPath}/${i}.png`)
       }

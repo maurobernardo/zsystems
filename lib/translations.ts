@@ -96,6 +96,16 @@ export const translations = {
         role: 'UX/UI Designer',
         bio: 'Creative designer focused on creating intuitive and beautiful user experiences. Specialized in interface design and user experience optimization.',
       },
+      developer1: {
+        name: 'Frank Walter Simbine',
+        role: 'Web Developer',
+        bio: 'Web developer focused on building modern, responsive and performant web applications for businesses.',
+      },
+      developer2: {
+        name: 'Helton Cunha Junior',
+        role: 'Web Developer',
+        bio: 'Web developer dedicated to creating scalable and maintainable digital solutions.',
+      },
     },
     // Projects
     projects: {
@@ -241,6 +251,16 @@ export const translations = {
         name: 'Vandro Correia',
         role: 'UX/UI Designer',
         bio: 'Designer criativo focado em criar experiências de usuário intuitivas e bonitas. Especializado em design de interfaces e otimização de experiência do usuário.',
+      },
+      developer1: {
+        name: 'Frank Walters Simbine',
+        role: 'Desenvolvedor Web',
+        bio: 'Desenvolvedor web focado em construir aplicações web modernas, responsivas e performáticas para empresas.',
+      },
+      developer2: {
+        name: 'Helton Cunha Junior',
+        role: 'Desenvolvedor Web',
+        bio: 'Desenvolvedor web dedicado a criar soluções digitais escaláveis e fáceis de manter.',
       },
     },
     // Projects
