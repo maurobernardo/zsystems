@@ -11,7 +11,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-primary-dark text-white relative overflow-hidden border-t border-white/10">
+    <footer className="bg-primary-dark text-white relative overflow-hidden border-0 outline-none" style={{ border: 'none', outline: 'none' }}>
       {/* Enhanced Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-float"></div>
@@ -21,9 +21,9 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Enhanced Company Info */}
           <div className="animate-slide-up-fade">
-            <div className="flex items-center gap-3 mb-4 group">
+            <div className="flex items-center mb-4 group">
               <div
-                className="w-12 h-12 md:w-14 md:h-14 bg-white/90 rounded-full relative shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 overflow-hidden"
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full relative overflow-hidden group-hover:scale-110 group-hover:rotate-3 transition-all duration-300"
                 style={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)' }}
               >
                 <Logo
@@ -32,7 +32,6 @@ export default function Footer() {
                   className="object-contain scale-[1.75]"
                 />
               </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-white to-secondary-light bg-clip-text text-transparent">Z-Systems</span>
             </div>
             <p className="text-gray-400 text-sm mb-6 leading-relaxed">
               {t('footer.description')}
@@ -142,7 +141,7 @@ export default function Footer() {
         </div>
 
         {/* Enhanced Bottom Bar */}
-        <div className="border-t border-primary/30 pt-8 mt-8 animate-slide-up-fade" style={{ animationDelay: '0.3s' }}>
+        <div className="pt-8 mt-8 animate-slide-up-fade" style={{ animationDelay: '0.3s' }}>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
               © {currentYear} <span className="text-secondary-light font-semibold">Z-Systems</span>. {t('footer.rights')}

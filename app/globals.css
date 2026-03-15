@@ -25,6 +25,14 @@ nav[data-transparent="true"] {
   background: transparent !important;
   background-image: none !important;
   background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Footer sem bordas */
+footer {
+  border: none !important;
+  outline: none !important;
 }
 
 @layer components {

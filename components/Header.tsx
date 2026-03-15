@@ -31,12 +31,12 @@ export default function Header() {
     <>
       {/* Main Navigation - Transparent no topo (mostra Hero atrás), azul ao fazer scroll ou quando menu mobile aberto */}
       <nav
-        className={`sticky top-0 left-0 right-0 z-50 transition-all duration-300 ease-out -mt-px pt-px ${
+        className={`sticky top-0 left-0 right-0 z-50 transition-all duration-300 ease-out -mt-px pt-px border-0 outline-none ${
           isScrolled || forceSolid
-            ? 'bg-primary shadow-lg border-b border-primary-dark backdrop-blur-md'
-            : 'header-transparent border-b border-transparent'
+            ? 'bg-primary shadow-lg backdrop-blur-md'
+            : 'header-transparent'
         }`}
-        style={isTransparent ? { background: 'transparent', backgroundColor: 'transparent', backgroundImage: 'none', boxShadow: 'none' } : undefined}
+        style={isTransparent ? { background: 'transparent', backgroundColor: 'transparent', backgroundImage: 'none', boxShadow: 'none', border: 'none', outline: 'none' } : { border: 'none', outline: 'none' }}
         data-transparent={isTransparent}
       >
         {isScrolled && (
@@ -48,9 +48,9 @@ export default function Header() {
         <div className="container-custom relative z-10">
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <Link href="/" className="flex items-center flex-shrink-0 group" aria-label="Z-Systems Home">
               <div
-                className="w-12 h-12 md:w-14 md:h-14 bg-white/90 rounded-full relative shadow-lg hover:scale-110 hover:rotate-3 transition-all duration-300 group-hover:shadow-xl overflow-hidden"
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full relative overflow-hidden hover:scale-110 hover:rotate-3 transition-all duration-300 group-hover:shadow-xl"
                 style={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)' }}
               >
                 <Logo
@@ -60,7 +60,6 @@ export default function Header() {
                   className="object-contain scale-[1.75]"
                 />
               </div>
-              <span className="text-white font-bold text-xl group-hover:text-secondary-light transition-colors duration-300">Z-Systems</span>
             </Link>
 
             {/* Desktop Navigation - Aligned more to the right */}
@@ -148,7 +147,7 @@ export default function Header() {
 
           {/* Mobile Menu - fundo azul (primary) para continuar visível e legível */}
           {isMenuOpen && (
-            <div className="md:hidden pb-4 pt-2 -mx-4 px-4 mt-2 rounded-b-xl bg-primary border-t border-white/10">
+            <div className="md:hidden pb-4 pt-2 -mx-4 px-4 mt-2 rounded-b-xl bg-primary border-0">
               <div className="flex flex-col gap-4">
                 <Link href="/#home" className="text-white hover:text-secondary-light transition-colors flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
