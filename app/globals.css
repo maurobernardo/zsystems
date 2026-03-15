@@ -5,20 +5,35 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    background-color: #1e3a5f; /* azul primary no root = zero branco no topo */
   }
   
   body {
-    @apply text-gray-900 bg-cream;
+    @apply text-gray-900;
+    margin: 0;
+    padding: 0;
+    /* Faixa azul alta no topo para eliminar qualquer barra branca */
+    background: linear-gradient(to bottom, #1e3a5f 88px, #faf9f7 88px);
   }
+}
+
+/* Força header transparente no topo - evita qualquer override */
+.header-transparent,
+nav[data-transparent="true"] {
+  background: transparent !important;
+  background-image: none !important;
+  background-color: transparent !important;
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-secondary hover:bg-secondary-light text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95;
+    @apply bg-secondary hover:bg-secondary-light text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:shadow-secondary/25 hover:scale-[1.02] active:scale-[0.98];
   }
   
   .btn-secondary {
-    @apply bg-transparent border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95;
+    @apply bg-transparent border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 inline-flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98];
   }
   
   .section-padding {

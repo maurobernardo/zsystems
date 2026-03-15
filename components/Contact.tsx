@@ -4,6 +4,7 @@ import { useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
+import SectionTitlePill from '@/components/SectionTitlePill'
 
 export default function Contact() {
   const { language } = useLanguage()
@@ -147,14 +148,11 @@ export default function Contact() {
       </div>
 
       <div className="container-custom relative z-10">
-        {/* Enhanced Header with better animations */}
         <div className="text-center mb-16 animate-slide-up-fade">
-          <p className="text-secondary-light text-sm font-semibold uppercase tracking-wide mb-4 animate-fade-in">
-            {t('contact.tagline')}
-          </p>
+          <SectionTitlePill>{t('contact.tagline')}</SectionTitlePill>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
             <span className="bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
-            {t('contact.title')}
+              {t('contact.title')}
             </span>
           </h2>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>

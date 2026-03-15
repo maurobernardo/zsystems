@@ -10,7 +10,8 @@ export default function Hero() {
   const t = (key: string) => getTranslation(language, key)
 
   return (
-    <section id="home" className="bg-primary relative overflow-hidden min-h-[85vh] md:min-h-[90vh] flex items-start md:items-center pt-12 md:pt-24 pb-8 md:pb-24">
+    <section id="home" className="bg-primary relative overflow-hidden min-h-[85vh] md:min-h-[90vh] flex items-start md:items-center -mt-20 pt-0 pb-8 md:pb-24" aria-label="Home">
+      {/* -mt-20 puxa o Hero para cima para o fundo ficar por baixo do header transparente */}
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -36,31 +37,31 @@ export default function Hero() {
         <div className="absolute bottom-40 left-40 w-40 h-40 bg-secondary/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
       </div>
 
-      {/* Enhanced Content aligned with header logo */}
-      <div className="relative z-10 w-full mt-0">
+      {/* Padding-top para o conteúdo começar abaixo do header (~80px) + margem negativa do section */}
+      <div className="relative z-10 w-full pt-40 md:pt-44 mt-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Enhanced Content with better animations */}
+          {/* Hero content - apenas texto, sem card */}
           <div className="text-white max-w-4xl">
-          <p className="text-secondary-light text-sm md:text-sm font-semibold uppercase tracking-wide mb-3 md:mb-4 animate-fade-in">
-            {t('hero.tagline')}
-          </p>
-          <h1 className="text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
-            <span className="inline-block bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
-              {t('hero.title')}
-            </span>
-          </h1>
-          <p className="text-gray-200 text-base md:text-lg lg:text-xl mb-6 md:mb-10 leading-relaxed max-w-2xl animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>
-            {t('hero.description')}
-          </p>
-          <div className="animate-bounce-in" style={{ animationDelay: '0.6s' }}>
-            <Link href="#contact" className="btn-primary text-base md:text-lg px-8 py-4 group inline-flex items-center gap-3 shadow-xl hover:shadow-2xl hover:shadow-secondary/40">
-              <span className="font-semibold">{t('hero.cta')}</span>
-              <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
+            <p className="text-secondary-light text-sm font-semibold uppercase tracking-widest mb-3 md:mb-4 animate-fade-in">
+              {t('hero.tagline')}
+            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
+              <span className="inline-block bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
+                {t('hero.title')}
+              </span>
+            </h1>
+            <p className="text-gray-200 text-base md:text-lg lg:text-xl mb-6 md:mb-10 leading-relaxed max-w-2xl animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>
+              {t('hero.description')}
+            </p>
+            <div className="animate-bounce-in" style={{ animationDelay: '0.6s' }}>
+              <Link href="#contact" className="btn-primary text-base md:text-lg px-8 py-4 group inline-flex items-center gap-3 shadow-xl hover:shadow-2xl hover:shadow-secondary/40 rounded-xl">
+                <span className="font-semibold">{t('hero.cta')}</span>
+                <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+            </div>
           </div>
-        </div>
         </div>
       </div>
 

@@ -22,6 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* Tira azul 1px no topo absoluto para tapar qualquer linha branca do browser */}
+        <div
+          className="fixed top-0 left-0 right-0 h-px z-[45] pointer-events-none"
+          style={{ backgroundColor: '#1e3a5f' }}
+          aria-hidden
+        />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

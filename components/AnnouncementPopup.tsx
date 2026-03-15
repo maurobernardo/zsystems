@@ -3,31 +3,35 @@
 import { useState, useEffect } from 'react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
+const STORAGE_KEY = 'zs-announcement-seen'
+
 export default function AnnouncementPopup() {
   const [isVisible, setIsVisible] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { language } = useLanguage()
 
   useEffect(() => {
-    // Show popup after 2 seconds
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted || typeof window === 'undefined') return
+    // Show only once per device: if already closed ever, never show again
+    if (localStorage.getItem(STORAGE_KEY) === 'true') {
+      return
+    }
     const timer = setTimeout(() => {
       setIsVisible(true)
-    }, 2000)
-
+    }, 1500)
     return () => clearTimeout(timer)
-  }, [])
+  }, [mounted])
 
   const handleClose = () => {
     setIsVisible(false)
-    // Store in localStorage to not show again for this session
-    sessionStorage.setItem('announcement-closed', 'true')
-  }
-
-  useEffect(() => {
-    // Check if already closed in this session
-    if (sessionStorage.getItem('announcement-closed') === 'true') {
-      setIsVisible(false)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, 'true')
     }
-  }, [])
+  }
 
   if (!isVisible) return null
 

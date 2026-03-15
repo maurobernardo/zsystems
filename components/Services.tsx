@@ -94,7 +94,6 @@ export default function Services() {
       </div>
 
       <div className="container-custom relative z-10">
-        {/* Header */}
         <div className="text-center mb-16 fade-in-up animate-scale-in">
           <p className="text-secondary-light text-sm font-semibold uppercase tracking-wide mb-4 animate-fade-in">
             {t('services.tagline')}

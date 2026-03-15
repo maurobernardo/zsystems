@@ -1,25 +1,50 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
 
+const SCROLL_THRESHOLD = 60
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const { language, setLanguage } = useLanguage()
   const t = (key: string) => getTranslation(language, key)
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(typeof window !== 'undefined' && window.scrollY > SCROLL_THRESHOLD)
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  /* No mobile, com menu aberto: header sempre azul para não aparecer barra branca */
+  const forceSolid = isMenuOpen
+  const isTransparent = !isScrolled && !forceSolid
+
   return (
     <>
-      {/* Main Navigation */}
-      <nav className="bg-primary sticky top-0 z-50 shadow-lg border-b border-primary-dark relative overflow-hidden backdrop-blur-sm">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-        </div>
+      {/* Main Navigation - Transparent no topo (mostra Hero atrás), azul ao fazer scroll ou quando menu mobile aberto */}
+      <nav
+        className={`sticky top-0 left-0 right-0 z-50 transition-all duration-300 ease-out -mt-px pt-px ${
+          isScrolled || forceSolid
+            ? 'bg-primary shadow-lg border-b border-primary-dark backdrop-blur-md'
+            : 'header-transparent border-b border-transparent'
+        }`}
+        style={isTransparent ? { background: 'transparent', backgroundColor: 'transparent', backgroundImage: 'none', boxShadow: 'none' } : undefined}
+        data-transparent={isTransparent}
+      >
+        {isScrolled && (
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+          </div>
+        )}
         <div className="container-custom relative z-10">
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
@@ -121,9 +146,9 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu - fundo azul (primary) para continuar visível e legível */}
           {isMenuOpen && (
-            <div className="md:hidden pb-4">
+            <div className="md:hidden pb-4 pt-2 -mx-4 px-4 mt-2 rounded-b-xl bg-primary border-t border-white/10">
               <div className="flex flex-col gap-4">
                 <Link href="/#home" className="text-white hover:text-secondary-light transition-colors flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

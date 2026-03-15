@@ -5,11 +5,13 @@ import Team from '@/components/Team'
 import Projects from '@/components/Projects'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
+import SocialSidebar from '@/components/SocialSidebar'
 import AnnouncementPopup from '@/components/AnnouncementPopup'
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-0 mt-0">
+      <SocialSidebar />
       <Header />
       <Hero />
       <About />
