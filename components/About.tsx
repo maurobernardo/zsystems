@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
-import SectionTitlePill from '@/components/SectionTitlePill'
 
 export default function About() {
   const { language } = useLanguage()
@@ -37,99 +37,89 @@ export default function About() {
       className="bg-gradient-to-b from-primary via-primary-dark to-primary section-padding relative overflow-hidden"
     >
       {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-float" />
-        <div
-          className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float"
-          style={{ animationDelay: '2s' }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-secondary/5 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: '1s' }}
-        />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-secondary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
       <div className="container-custom relative z-10">
-        <div className="max-w-4xl mx-auto">
-          {/* Section header with pill title */}
-          <div className="scroll-reveal animate-slide-in-blur text-center mb-12">
-            <SectionTitlePill>{t('about.tagline')}</SectionTitlePill>
-            <h2
-              className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight animate-fade-in-scale"
-              style={{ animationDelay: '0.2s' }}
-            >
-              <span className="bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
-                {t('about.title')}
-              </span>
-            </h2>
-            <p
-              className="text-gray-200 text-lg mb-12 leading-relaxed max-w-3xl mx-auto animate-slide-up-fade"
-              style={{ animationDelay: '0.4s' }}
-            >
-              {t('about.description')}
-            </p>
-          </div>
-
-          {/* Features list */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
-            {[
-              {
-                title: t('about.features.support'),
-                icon: (
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
-                ),
-              },
-              {
-                title: t('about.features.ux'),
-                icon: (
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                ),
-              },
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className="group scroll-reveal bg-primary-dark/80 backdrop-blur-sm rounded-2xl p-8 border border-secondary/20 hover:border-secondary/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-secondary/20 animate-slide-up-fade"
-                style={{
-                  animationDelay: `${0.5 + index * 0.15}s`,
-                  boxShadow: '0 4px 25px rgba(59, 130, 246, 0.15)',
-                }}
-              >
-                <div
-                  className="w-18 h-18 bg-gradient-to-br from-secondary/40 via-secondary/30 to-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl group-hover:shadow-2xl"
-                  style={{ boxShadow: '0 4px 25px rgba(59, 130, 246, 0.4)' }}
-                >
-                  {feature.icon}
+        <div className="max-w-6xl mx-auto">
+          <div className="scroll-reveal animate-slide-in-blur grid md:grid-cols-2 gap-10 items-start">
+            {/* Image card */}
+            <div className="relative">
+              <div className="rounded-[34px] border border-white/15 bg-primary-dark/40 backdrop-blur-md shadow-2xl overflow-hidden">
+                <div className="relative h-[320px] sm:h-[380px] md:h-[520px]">
+                  <Image
+                    src="/images/about4.png"
+                    alt={language === 'pt' ? 'Tecnologia e transformação digital' : 'Technology and digital transformation'}
+                    fill
+                    className="object-cover object-center"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-primary/55 via-primary/10 to-transparent" />
                 </div>
-                <span className="text-gray-200 text-base md:text-lg group-hover:text-white transition-colors duration-300 text-center block font-medium">
-                  {feature.title}
-                </span>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-secondary/0 via-secondary/10 to-secondary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
               </div>
-            ))}
+
+              <div className="absolute -bottom-5 left-7">
+                <div className="inline-flex items-center rounded-full bg-secondary text-white text-[11px] font-bold px-4 py-2 shadow-lg tracking-widest">
+                  <span>{language === 'pt' ? 'DESDE 2026' : 'SINCE 2026'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="pt-4 md:pt-8">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="h-[2px] w-10 bg-secondary" />
+                <span className="text-[11px] font-bold tracking-[0.35em] text-secondary-light uppercase">
+                  {language === 'pt' ? 'Sobre Nós' : 'About Us'}
+                </span>
+              </div>
+
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+                <span className="bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
+                  {language === 'pt' ? 'Quem Somos e o Que Fazemos' : 'Who We Are and What We Do'}
+                </span>
+              </h2>
+
+              <p className="mt-4 text-gray-200 text-base md:text-lg leading-relaxed max-w-xl">
+                {t('about.description')}
+              </p>
+
+              <ul className="mt-6 space-y-3 text-gray-200 text-sm md:text-base max-w-xl">
+                {[
+                  language === 'pt'
+                    ? 'Parceiro estratégico para o desenvolvimento tecnológico e digital das empresas.'
+                    : 'Strategic partner for technological and digital development.',
+                  language === 'pt'
+                    ? 'Soluções completas: consultoria, design e desenvolvimento de software.'
+                    : 'Complete solutions: consulting, design and software development.',
+                  language === 'pt'
+                    ? 'Foco em resultados: sistemas rápidos, seguros e fáceis de usar.'
+                    : 'Results-focused: fast, secure and easy-to-use systems.',
+                ].map((txt) => (
+                  <li key={txt} className="flex items-start gap-3">
+                    <span className="mt-1 w-5 h-5 rounded-full border border-secondary/40 bg-secondary/15 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3.5 h-3.5 text-secondary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    <span>{txt}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href="#services"
+                className="btn-primary mt-7 px-6 py-3"
+              >
+                <span>{language === 'pt' ? 'Saber mais' : 'Learn more'}</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>

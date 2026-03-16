@@ -7,25 +7,86 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
 
 const SCROLL_THRESHOLD = 60
+const SECTION_IDS = ['home', 'about', 'team', 'services', 'projects', 'contact'] as const
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState<(typeof SECTION_IDS)[number]>('home')
+  const [scrollProgress, setScrollProgress] = useState(0)
   const { language, setLanguage } = useLanguage()
   const t = (key: string) => getTranslation(language, key)
 
   useEffect(() => {
+    const computeProgress = () => {
+      if (typeof window === 'undefined') return
+      const last = document.getElementById(SECTION_IDS[SECTION_IDS.length - 1])
+      const maxScroll = last
+        ? Math.max(1, last.offsetTop + last.offsetHeight - window.innerHeight)
+        : Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      const p = Math.min(1, Math.max(0, window.scrollY / maxScroll))
+      setScrollProgress(p)
+    }
+
     const handleScroll = () => {
       setIsScrolled(typeof window !== 'undefined' && window.scrollY > SCROLL_THRESHOLD)
+      computeProgress()
     }
+
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('resize', computeProgress)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', computeProgress)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleActiveSection = () => {
+      const headerOffset = 80
+      let current: (typeof SECTION_IDS)[number] = 'home'
+      let smallestDistance = Number.POSITIVE_INFINITY
+
+      SECTION_IDS.forEach((id) => {
+        const el = document.getElementById(id)
+        if (!el) return
+        const rect = el.getBoundingClientRect()
+        const distance = Math.abs(rect.top - headerOffset)
+
+        if (rect.bottom > headerOffset && rect.top < window.innerHeight && distance < smallestDistance) {
+          smallestDistance = distance
+          current = id
+        }
+      })
+
+      setActiveSection(current)
+    }
+
+    handleActiveSection()
+    window.addEventListener('scroll', handleActiveSection, { passive: true })
+    window.addEventListener('resize', handleActiveSection)
+    return () => {
+      window.removeEventListener('scroll', handleActiveSection)
+      window.removeEventListener('resize', handleActiveSection)
+    }
   }, [])
 
   /* No mobile, com menu aberto: header sempre azul para não aparecer barra branca */
   const forceSolid = isMenuOpen
   const isTransparent = !isScrolled && !forceSolid
+
+  const navLinkClass = (id: (typeof SECTION_IDS)[number]) =>
+    `text-white transition-all duration-300 font-medium flex items-center gap-2 group relative px-2 py-2 rounded-xl hover:text-secondary-light ${
+      activeSection === id ? 'text-secondary-light' : ''
+    }`
+
+  const navUnderlineClass = (id: (typeof SECTION_IDS)[number]) =>
+    `absolute left-2 right-2 -bottom-0.5 h-[2px] rounded-full bg-secondary transition-all duration-300 ${
+      activeSection === id ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-50 group-hover:opacity-80 group-hover:scale-x-100'
+    }`
 
   return (
     <>
@@ -39,6 +100,14 @@ export default function Header() {
         style={isTransparent ? { background: 'transparent', backgroundColor: 'transparent', backgroundImage: 'none', boxShadow: 'none', border: 'none', outline: 'none' } : { border: 'none', outline: 'none' }}
         data-transparent={isTransparent}
       >
+        {/* Scroll progress bar (thin, grows with scroll) */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-white/10">
+          <div
+            className="h-full bg-gradient-to-r from-secondary via-secondary-light to-secondary rounded-full transition-[width] duration-150 ease-out"
+            style={{ width: `${Math.round(scrollProgress * 1000) / 10}%` }}
+          />
+        </div>
+
         {isScrolled && (
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse"></div>
@@ -49,50 +118,59 @@ export default function Header() {
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0 group" aria-label="Z-Systems Home">
-              <div
-                className="w-12 h-12 md:w-14 md:h-14 rounded-full relative overflow-hidden hover:scale-110 hover:rotate-3 transition-all duration-300 group-hover:shadow-xl"
-                style={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)' }}
-              >
+              <div className="w-10 h-10 md:w-12 md:h-12 relative overflow-hidden hover:scale-110 hover:rotate-3 transition-all duration-300">
                 <Logo
                   fill
                   priority
-                  sizes="(min-width: 768px) 56px, 48px"
-                  className="object-contain scale-[1.75]"
+                  sizes="(min-width: 768px) 48px, 40px"
+                  className="object-contain scale-[1.55]"
                 />
               </div>
             </Link>
 
             {/* Desktop Navigation - Aligned more to the right */}
             <div className="hidden md:flex items-center gap-3 lg:gap-4 ml-auto mr-6 lg:mr-12">
-              <Link href="/#home" className="text-white hover:text-secondary-light transition-all duration-300 font-medium flex items-center gap-2 group relative">
+              <Link href="/#home" className={navLinkClass('home')}>
                 <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
                 {t('header.home')}
+                <span className={navUnderlineClass('home')} />
               </Link>
-              <Link href="/#about" className="text-white hover:text-secondary-light transition-all duration-300 font-medium flex items-center gap-2 group relative">
+              <Link href="/#about" className={navLinkClass('about')}>
                 <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 {t('header.about')}
+                <span className={navUnderlineClass('about')} />
               </Link>
-              <Link href="/#team" className="text-white hover:text-secondary-light transition-all duration-300 font-medium flex items-center gap-2 group relative">
+              <Link href="/#team" className={navLinkClass('team')}>
                 <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
                 {t('header.team')}
+                <span className={navUnderlineClass('team')} />
               </Link>
-              <Link href="/#projects" className="text-white hover:text-secondary-light transition-all duration-300 font-medium flex items-center gap-2 group relative">
+              <Link href="/#services" className={navLinkClass('services')}>
+                <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h10" />
+                </svg>
+                {t('header.services')}
+                <span className={navUnderlineClass('services')} />
+              </Link>
+              <Link href="/#projects" className={navLinkClass('projects')}>
                 <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
                 {t('header.projects')}
+                <span className={navUnderlineClass('projects')} />
               </Link>
-              <Link href="/#contact" className="text-white hover:text-secondary-light transition-all duration-300 font-medium flex items-center gap-2 group relative">
+              <Link href="/#contact" className={navLinkClass('contact')}>
                 <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 {t('header.contact')}
+                <span className={navUnderlineClass('contact')} />
               </Link>
             </div>
 
@@ -166,6 +244,12 @@ export default function Header() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                   {t('header.team')}
+                </Link>
+                <Link href="/#services" className="text-white hover:text-secondary-light transition-colors flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h10" />
+                  </svg>
+                  {t('header.services')}
                 </Link>
                 <Link href="/#projects" className="text-white hover:text-secondary-light transition-colors flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -21,6 +21,7 @@ export const translations = {
       title: 'Smart, Scalable IT Solutions for Your Business',
       description: 'We help you build, manage, and grow through innovative tech services. Delivering web systems, enterprise software, APIs, dashboards and digital platforms that drive your business forward.',
       cta: 'Contact Us',
+      viewServices: 'View our services',
     },
     // About
     about: {
@@ -45,34 +46,34 @@ export const translations = {
     // Services
     services: {
       tagline: 'Our Services',
-      title: 'Complete IT Solutions to Grow Your Business',
-      subtitle: 'From custom software development to enterprise solutions, we deliver comprehensive technology services that drive innovation and growth.',
-      cta: 'Get Started Today',
-      items: {
-        software: {
-          title: 'Software Development',
-          description: 'We create customized, scalable, and secure systems, tailored to the specific needs of each business.',
-        },
-        web: {
+      title: 'Services built to scale your business',
+      subtitle: 'ZSystems offers end-to-end services across web, systems, mobile, design and infrastructure—focused on performance, reliability and growth.',
+      areas: {
+        webDev: {
           title: 'Web Development',
-          description: 'We develop modern, responsive, and high-performance web applications using current technologies.',
+          items: ['Institutional websites', 'Business systems', 'Web portals and platforms'],
+        },
+        systemsDev: {
+          title: 'Systems Development',
+          items: ['Enterprise management systems', 'Custom systems', 'Systems integration'],
         },
         mobile: {
           title: 'Mobile Applications',
-          description: 'We create hybrid mobile applications for iOS and Android from a single codebase, ensuring efficiency and speed in development.',
+          items: ['Android & iOS apps', 'Hybrid apps'],
         },
-        institutional: {
-          title: 'Institutional Websites',
-          description: 'We develop professional websites for companies and institutions, with modern design, performance, and credibility.',
+        uiux: {
+          title: 'UI/UX Design',
+          items: ['Interface design', 'User experience', 'Modern & responsive design'],
         },
-        portfolio: {
-          title: 'Personal Portfolios',
-          description: 'We create personalized digital portfolios for professionals, freelancers, and creators who want to showcase their skills online.',
+        infra: {
+          title: 'Infrastructure & Technology',
+          items: ['Systems hosting', 'Application deploy', 'API integrations'],
         },
-        networks: {
-          title: 'Network and Systems Administration',
-          description: 'We offer management, monitoring, and maintenance of networks and systems, ensuring security, stability, and availability.',
-        },
+      },
+      actions: {
+        contact: { title: 'Contact us', subtitle: 'Tell us what you need' },
+        call: { title: 'Call us', subtitle: 'Speak with our team' },
+        lang: { title: 'English / Portuguese', subtitle: 'EN / PT' },
       },
     },
     // Team
@@ -178,6 +179,7 @@ export const translations = {
       title: 'Soluções de TI Inteligentes e Escaláveis para o Seu Negócio',
       description: 'Ajudamos você a construir, gerenciar e crescer através de serviços tecnológicos inovadores. Entregando sistemas web, software empresarial, APIs, dashboards e plataformas digitais que impulsionam o seu negócio.',
       cta: 'Contacte-nos',
+      viewServices: 'Ver nossos serviços',
     },
     // About
     about: {
@@ -202,34 +204,34 @@ export const translations = {
     // Services
     services: {
       tagline: 'Os Nossos Serviços',
-      title: 'Soluções de TI Completas para Fazer o Seu Negócio Crescer',
-      subtitle: 'Desde desenvolvimento de software personalizado até soluções empresariais, entregamos serviços tecnológicos abrangentes que impulsionam a inovação e o crescimento.',
-      cta: 'Comece Hoje',
-      items: {
-        software: {
-          title: 'Desenvolvimento de Software',
-          description: 'Criamos sistemas personalizados, escaláveis e seguros, adaptados às necessidades específicas de cada negócio.',
-        },
-        web: {
+      title: 'Serviços feitos para escalar o seu negócio',
+      subtitle: 'A ZSystems oferece serviços completos em web, sistemas, mobile, design e infraestrutura — com foco em performance, confiabilidade e crescimento.',
+      areas: {
+        webDev: {
           title: 'Desenvolvimento Web',
-          description: 'Desenvolvemos aplicações web modernas, responsivas e de alto desempenho utilizando tecnologias atuais.',
+          items: ['Websites institucionais', 'Sistemas empresariais', 'Portais e plataformas web'],
+        },
+        systemsDev: {
+          title: 'Desenvolvimento de Sistemas',
+          items: ['Sistemas de gestão empresarial', 'Sistemas personalizados', 'Integração de sistemas'],
         },
         mobile: {
-          title: 'Aplicativos Mobile',
-          description: 'Criamos aplicativos móveis híbridos para iOS e Android a partir de uma única base de código, garantindo eficiência e rapidez no desenvolvimento.',
+          title: 'Aplicações Mobile',
+          items: ['Aplicativos Android e iOS', 'Aplicações híbridas'],
         },
-        institutional: {
-          title: 'Websites Institucionais',
-          description: 'Desenvolvemos websites profissionais para empresas e instituições, com design moderno, performance e credibilidade.',
+        uiux: {
+          title: 'UI/UX Design',
+          items: ['Design de interfaces', 'Experiência do usuário', 'Design moderno e responsivo'],
         },
-        portfolio: {
-          title: 'Portfólios Pessoais',
-          description: 'Criamos portfólios digitais personalizados para profissionais, freelancers e criadores que desejam destacar suas habilidades online.',
+        infra: {
+          title: 'Infraestrutura e Tecnologia',
+          items: ['Hospedagem de sistemas', 'Deploy de aplicações', 'Integração de APIs'],
         },
-        networks: {
-          title: 'Administração de Redes e Sistemas',
-          description: 'Oferecemos gestão, monitoramento e manutenção de redes e sistemas, garantindo segurança, estabilidade e disponibilidade.',
-        },
+      },
+      actions: {
+        contact: { title: 'Contacte-nos', subtitle: 'Conte-nos o que precisa' },
+        call: { title: 'Ligue-nos', subtitle: 'Fale com a nossa equipa' },
+        lang: { title: 'Inglês / Português', subtitle: 'PT / EN' },
       },
     },
     // Team

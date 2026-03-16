@@ -22,10 +22,7 @@ export default function Footer() {
           {/* Enhanced Company Info */}
           <div className="animate-slide-up-fade">
             <div className="flex items-center mb-4 group">
-              <div
-                className="w-12 h-12 md:w-14 md:h-14 rounded-full relative overflow-hidden group-hover:scale-110 group-hover:rotate-3 transition-all duration-300"
-                style={{ boxShadow: '0 4px 20px rgba(59, 130, 246, 0.3)' }}
-              >
+              <div className="w-11 h-11 md:w-12 md:h-12 relative overflow-hidden group-hover:scale-105 group-hover:rotate-2 transition-all duration-300">
                 <Logo
                   fill
                   sizes="(min-width: 768px) 56px, 48px"
@@ -140,8 +137,11 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Divider line between content and copyright */}
+        <div className="mt-8 border-t border-white/10" />
+
         {/* Enhanced Bottom Bar */}
-        <div className="pt-8 mt-8 animate-slide-up-fade" style={{ animationDelay: '0.3s' }}>
+        <div className="pt-6 mt-4 animate-slide-up-fade" style={{ animationDelay: '0.3s' }}>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
               © {currentYear} <span className="text-secondary-light font-semibold">Z-Systems</span>. {t('footer.rights')}

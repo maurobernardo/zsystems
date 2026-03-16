@@ -15,16 +15,16 @@ export default function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/Fundo3.jpg"
+          src="/images/Fundo5.jpg"
           alt="Background"
           fill
           className="object-cover"
           priority
           quality={90}
         />
-        <div className="absolute inset-0 bg-primary/40"></div>
+        <div className="absolute inset-0 bg-primary/24"></div>
         {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/60 via-primary/40 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/50 via-primary/25 to-transparent"></div>
       </div>
 
       {/* Enhanced Animated background elements */}
@@ -42,9 +42,12 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Hero content - apenas texto, sem card */}
           <div className="text-white max-w-4xl">
-            <p className="text-secondary-light text-sm font-semibold uppercase tracking-widest mb-3 md:mb-4 animate-fade-in">
-              {t('hero.tagline')}
-            </p>
+            <div className="inline-flex items-center gap-2 rounded-2xl bg-gray-400/15 border border-white/10 backdrop-blur-md px-4 py-2 mb-4 animate-fade-in shadow-lg">
+              <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+              <p className="text-secondary-light text-sm font-semibold uppercase tracking-widest">
+                {t('hero.tagline')}
+              </p>
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
               <span className="inline-block bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
                 {t('hero.title')}
@@ -53,11 +56,20 @@ export default function Hero() {
             <p className="text-gray-200 text-base md:text-lg lg:text-xl mb-6 md:mb-10 leading-relaxed max-w-2xl animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>
               {t('hero.description')}
             </p>
-            <div className="animate-bounce-in" style={{ animationDelay: '0.6s' }}>
-              <Link href="#contact" className="btn-primary text-base md:text-lg px-8 py-4 group inline-flex items-center gap-3 shadow-xl hover:shadow-2xl hover:shadow-secondary/40 rounded-xl">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start animate-bounce-in" style={{ animationDelay: '0.6s' }}>
+              <Link href="#contact" className="btn-primary text-base md:text-lg px-8 py-4 group inline-flex items-center gap-3 shadow-xl hover:shadow-2xl hover:shadow-secondary/40 rounded-full">
                 <span className="font-semibold">{t('hero.cta')}</span>
                 <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
+              <Link
+                href="#services"
+                className="btn-secondary text-base md:text-lg px-8 py-4 group inline-flex items-center gap-3 rounded-full border-white/30 text-white hover:text-white hover:border-white/50 bg-white/5 hover:bg-white/10 backdrop-blur-md shadow-xl"
+              >
+                <span className="font-semibold">{t('hero.viewServices')}</span>
+                <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </Link>
             </div>

@@ -427,26 +427,6 @@ export default function Team() {
           </div>
         </div>
 
-        {/* Enhanced Additional Info */}
-        <div className={`mt-16 text-center ${isVisible ? 'animate-slide-up-fade' : 'opacity-0'}`} style={{ animationDelay: '0.7s' }}>
-          <p className="text-gray-200 mb-6 text-lg md:text-xl">
-            {language === 'pt' 
-              ? 'Estamos sempre à procura de pessoas talentosas para se juntarem à nossa equipa em crescimento.'
-              : 'We\'re always looking for talented individuals to join our growing team.'}
-          </p>
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary text-lg px-8 py-4 group shadow-xl hover:shadow-2xl hover:shadow-secondary/40 animate-bounce-in"
-            style={{ animationDelay: '0.8s' }}
-          >
-            <span className="font-semibold">{t('team.join')}</span>
-            <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
-        </div>
       </div>
     </section>
   )
