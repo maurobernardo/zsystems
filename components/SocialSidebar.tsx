@@ -43,7 +43,7 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 function IconFor({ name }: { name: string }) {
-  const c = 'w-5 h-5'
+  const c = 'w-4 h-4'
   switch (name) {
     case 'facebook': return <FacebookIcon className={c} />
     case 'instagram': return <InstagramIcon className={c} />
@@ -80,7 +80,7 @@ export default function SocialSidebar() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-primary border-2 border-secondary-light flex items-center justify-center text-secondary-light hover:bg-secondary hover:text-white hover:border-white transition-all duration-300"
+              className="w-8 h-8 rounded-full bg-primary border-2 border-secondary-light flex items-center justify-center text-secondary-light hover:bg-secondary hover:text-white hover:border-white transition-all duration-300"
               aria-label={label}
             >
               <IconFor name={icon} />

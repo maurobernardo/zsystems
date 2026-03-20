@@ -340,6 +340,19 @@ footer {
   animation: slide-in-blur 0.8s ease-out forwards;
 }
 
+@keyframes testimonials-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-testimonials-marquee {
+  animation: testimonials-marquee 22s linear infinite;
+}
+
 /* Scroll animations */
 @layer utilities {
   .scroll-reveal {

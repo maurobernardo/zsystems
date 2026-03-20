@@ -17,11 +17,13 @@ export const translations = {
     },
     // Hero
     hero: {
-      tagline: 'Optimize IT Systems',
+      tagline: 'Technology Company · Beira, Mozambique',
       title: 'Smart, Scalable IT Solutions for Your Business',
-      description: 'We help you build, manage, and grow through innovative tech services. Delivering web systems, enterprise software, APIs, dashboards and digital platforms that drive your business forward.',
+      description:
+        'We help you build, manage, and grow through innovative tech services. Delivering web systems, enterprise software, API integrations, dashboards and digital platforms that drive your business forward.',
       cta: 'Contact Us',
-      viewServices: 'View our services',
+      startProject: 'Start a project',
+      viewPortfolio: 'View portfolio',
     },
     // About
     about: {
@@ -158,6 +160,12 @@ export const translations = {
       privacy: 'Privacy Policy',
       terms: 'Terms of Service',
     },
+    // Testimonials
+    testimonials: {
+      tagline: 'Testimonials',
+      title: 'Leaders trust Z-Systems',
+      subtitle: 'Real feedback from CEOs and decision makers across different industries.',
+    },
   },
   pt: {
     // Header
@@ -175,11 +183,13 @@ export const translations = {
     },
     // Hero
     hero: {
-      tagline: 'Otimize Sistemas de TI',
+      tagline: 'Empresa de Tecnologia · Beira, Moçambique.',
       title: 'Soluções de TI Inteligentes e Escaláveis para o Seu Negócio',
-      description: 'Ajudamos você a construir, gerenciar e crescer através de serviços tecnológicos inovadores. Entregando sistemas web, software empresarial, APIs, dashboards e plataformas digitais que impulsionam o seu negócio.',
+      description:
+        'Ajudamos a construir, gerir e crescer com serviços tecnológicos inovadores. Entregamos sistemas web, software empresarial, integrações de APIs, dashboards e plataformas digitais que impulsionam o seu negócio.',
       cta: 'Contacte-nos',
-      viewServices: 'Ver nossos serviços',
+      startProject: 'Iniciar projecto',
+      viewPortfolio: 'Ver portfólio',
     },
     // About
     about: {
@@ -315,6 +325,12 @@ export const translations = {
       rights: 'Todos os direitos reservados.',
       privacy: 'Política de Privacidade',
       terms: 'Termos de Serviço',
+    },
+    // Testimonials
+    testimonials: {
+      tagline: 'Testemunhos',
+      title: 'O que dizem os nossos clientes',
+      subtitle: 'Feedback real de líderes e decisores em diferentes sectores.',
     },
   },
 }

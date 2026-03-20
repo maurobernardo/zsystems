@@ -100,6 +100,13 @@ export default function Header() {
         style={isTransparent ? { background: 'transparent', backgroundColor: 'transparent', backgroundImage: 'none', boxShadow: 'none', border: 'none', outline: 'none' } : { border: 'none', outline: 'none' }}
         data-transparent={isTransparent}
       >
+        {/* Linha transparente no header (modo transparente) */}
+        <div
+          className={`absolute bottom-0 left-0 right-0 h-[1px] bg-white/20 pointer-events-none transition-opacity duration-300 ${
+            isTransparent ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
         {/* Scroll progress bar (thin, grows with scroll) */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-white/10">
           <div
