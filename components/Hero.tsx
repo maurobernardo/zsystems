@@ -13,7 +13,7 @@ export default function Hero() {
     <section
       id="home"
       className="bg-primary relative overflow-hidden -mt-[72px]"
-      style={{ height: "100vh" }}
+      style={{ minHeight: "100vh" }}
       aria-label="Home"
     >
       {/* Background Image */}
@@ -33,40 +33,30 @@ export default function Hero() {
       {/* Animated background elements */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute top-20 right-20 w-72 h-72 bg-secondary/20 rounded-full blur-3xl animate-float"></div>
-        <div
-          className="absolute bottom-20 left-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-float"
-          style={{ animationDelay: "2s" }}
-        ></div>
-        <div
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-secondary/15 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "1s" }}
-        ></div>
-        <div
-          className="absolute top-40 right-40 w-32 h-32 bg-secondary/25 rounded-full blur-2xl animate-pulse"
-          style={{ animationDelay: "0.5s" }}
-        ></div>
-        <div
-          className="absolute bottom-40 left-40 w-40 h-40 bg-secondary/20 rounded-full blur-2xl animate-pulse"
-          style={{ animationDelay: "1.5s" }}
-        ></div>
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }}></div>
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-secondary/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+        <div className="absolute top-40 right-40 w-32 h-32 bg-secondary/25 rounded-full blur-2xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+        <div className="absolute bottom-40 left-40 w-40 h-40 bg-secondary/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: "1.5s" }}></div>
       </div>
 
-      {/* Conteúdo — padding-top = altura do header para o texto não ficar tapado */}
       <div
         className="relative z-10 w-full h-full flex items-center"
         style={{ paddingTop: "72px" }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid md:grid-cols-2 gap-10 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8 md:py-0">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
 
             {/* Left: copy */}
             <div className="text-white max-w-2xl md:max-w-none">
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-gray-400/15 border border-white/10 backdrop-blur-md px-4 py-2 mb-4 animate-fade-in shadow-lg w-fit">
+
+              {/* Tagline — rounded-full como pedido */}
+              <div className="inline-flex items-center gap-2 rounded-full bg-gray-400/15 border border-white/10 backdrop-blur-md px-4 py-2 mb-4 animate-fade-in shadow-lg w-fit">
                 <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
                 <p className="text-secondary-light text-sm font-semibold uppercase tracking-widest">
                   {t("hero.tagline")}
                 </p>
               </div>
+
               <h1
                 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight animate-fade-in-scale"
                 style={{ animationDelay: "0.2s" }}
@@ -75,12 +65,14 @@ export default function Hero() {
                   {t("hero.title")}
                 </span>
               </h1>
+
               <p
                 className="text-gray-200 text-base md:text-lg lg:text-xl mb-6 md:mb-10 leading-relaxed max-w-2xl animate-slide-up-fade"
                 style={{ animationDelay: "0.4s" }}
               >
                 {t("hero.description")}
               </p>
+
               <div
                 className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start animate-bounce-in"
                 style={{ animationDelay: "0.6s" }}
@@ -90,18 +82,8 @@ export default function Hero() {
                   className="btn-primary text-base md:text-lg px-8 py-4 group inline-flex items-center gap-3 shadow-xl hover:shadow-2xl hover:shadow-secondary/40 rounded-full"
                 >
                   <span className="font-semibold">{t("hero.startProject")}</span>
-                  <svg
-                    className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
+                  <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
                 <Link
@@ -109,37 +91,42 @@ export default function Hero() {
                   className="btn-secondary text-base md:text-lg px-8 py-4 group inline-flex items-center gap-3 rounded-full border-white/30 text-white hover:text-white hover:border-white/50 bg-white/5 hover:bg-white/10 backdrop-blur-md shadow-xl"
                 >
                   <span className="font-semibold">{t("hero.viewPortfolio")}</span>
-                  <svg
-                    className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
+                  <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
               </div>
+
+              {/* Imagem mobile — abaixo dos botões, apenas em mobile */}
+              <div
+                className="block md:hidden relative w-full mt-8 overflow-visible"
+                style={{ height: "360px" }}
+              >
+                <Image
+                  src="/images/image3.png"
+                  alt="Technology visual"
+                  fill
+                  className="object-contain object-center drop-shadow-2xl scale-125"
+                  priority
+                />
+              </div>
+
             </div>
 
-            {/* Right: image */}
+            {/* Right: image — apenas desktop */}
             <div className="hidden md:flex items-center justify-center relative overflow-visible">
               <div className="absolute -top-10 -left-10 w-64 h-64 bg-secondary/10 rounded-full blur-3xl animate-pulse" />
               <div
                 className="relative w-full overflow-visible"
                 style={{ height: "calc(100vh - 72px)" }}
               >
-             <Image
-  src="/images/image3.png"
-  alt="Technology visual"
-  fill
-  className="object-contain object-center drop-shadow-2xl scale-[1.15]"
-  priority
-/>
+                <Image
+                  src="/images/image3.png"
+                  alt="Technology visual"
+                  fill
+                  className="object-contain object-center drop-shadow-2xl scale-[1.15]"
+                  priority
+                />
               </div>
             </div>
 
@@ -149,20 +136,10 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-        <svg
-          className="w-6 h-6 text-white/70"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
+        <svg className="w-6 h-6 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </div>
     </section>
   );
-}
+}cc
