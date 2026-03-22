@@ -54,24 +54,69 @@ function InfoItem({
     : inner
 }
 
+/* ─── Validators ─────────────────────────────────────────────────────────── */
+function validateField(name: string, value: string): string {
+  switch (name) {
+    case 'name':
+      if (!value.trim()) return 'O nome é obrigatório.'
+      if (value.trim().length < 2) return 'Mínimo 2 caracteres.'
+      return ''
+    case 'email':
+      if (!value.trim()) return 'O email é obrigatório.'
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Email inválido.'
+      return ''
+    case 'phone':
+      if (value && !/^[+\d\s\-()]{7,20}$/.test(value)) return 'Número inválido.'
+      return ''
+    case 'message':
+      if (!value.trim()) return 'A mensagem é obrigatória.'
+      if (value.trim().length < 10) return 'Mínimo 10 caracteres.'
+      return ''
+    default:
+      return ''
+  }
+}
+
 /* ─── Form input ─────────────────────────────────────────────────────────── */
 function FormField({
   name, label, placeholder, type = 'text', required = false,
-  value, onChange, focused, onFocus, onBlur, rows,
+  value, onChange, focused, onFocus, onBlur, rows, error, touched,
 }: {
   name: string; label: string; placeholder: string; type?: string
   required?: boolean; value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   focused: boolean; onFocus: () => void; onBlur: () => void; rows?: number
+  error?: string; touched?: boolean
 }) {
+  const hasError = touched && !!error
+  const isValid  = touched && !error && value.trim().length > 0
+
+  const borderColor = hasError
+    ? 'rgba(248,113,113,0.7)'
+    : isValid
+      ? 'rgba(74,222,128,0.6)'
+      : focused
+        ? 'rgba(99,200,255,0.55)'
+        : 'rgba(255,255,255,0.1)'
+
+  const boxShadow = hasError
+    ? '0 0 0 3px rgba(248,113,113,0.12), 0 0 16px rgba(248,113,113,0.06)'
+    : isValid
+      ? '0 0 0 3px rgba(74,222,128,0.1)'
+      : focused
+        ? '0 0 0 3px rgba(99,200,255,0.12), 0 0 20px rgba(99,200,255,0.08)'
+        : 'none'
+
+  const labelColor = hasError ? '#f87171' : isValid ? '#4ade80' : focused ? '#63C8FF' : 'rgba(255,255,255,0.65)'
+
   const commonStyle: React.CSSProperties = {
     width: '100%', padding: '12px 16px',
     borderRadius: 14, fontSize: 14, fontWeight: 400,
     background: focused ? 'rgba(2,4,8,0.8)' : 'rgba(255,255,255,0.04)',
-    border: `1px solid ${focused ? 'rgba(99,200,255,0.55)' : 'rgba(255,255,255,0.1)'}`,
+    border: `1px solid ${borderColor}`,
     color: '#fff', outline: 'none',
     backdropFilter: 'blur(12px)',
-    boxShadow: focused ? '0 0 0 3px rgba(99,200,255,0.12), 0 0 20px rgba(99,200,255,0.08)' : 'none',
+    boxShadow,
     transition: 'all .25s cubic-bezier(.22,1,.36,1)',
     resize: rows ? 'none' as const : undefined,
     fontFamily: "'DM Sans', sans-serif",
@@ -79,8 +124,12 @@ function FormField({
 
   return (
     <div className="ct-field">
-      <label className="ct-label" style={{ color: focused ? '#63C8FF' : 'rgba(255,255,255,0.65)' }}>
+      <label className="ct-label" style={{ color: labelColor, transition: 'color .25s' }}>
         {label}{required && <span style={{ color: '#F472B6', marginLeft: 3 }}>*</span>}
+        {/* Valid checkmark */}
+        {isValid && (
+          <span style={{ marginLeft: 6, color: '#4ade80', fontSize: 12 }}>✓</span>
+        )}
       </label>
       {rows ? (
         <textarea
@@ -89,6 +138,8 @@ function FormField({
           onChange={onChange} onFocus={onFocus} onBlur={onBlur}
           placeholder={placeholder}
           style={{ ...commonStyle, paddingTop: 14 }}
+          aria-invalid={hasError}
+          aria-describedby={hasError ? `${name}-error` : undefined}
         />
       ) : (
         <input
@@ -97,8 +148,33 @@ function FormField({
           onChange={onChange} onFocus={onFocus} onBlur={onBlur}
           placeholder={placeholder}
           style={commonStyle}
+          aria-invalid={hasError}
+          aria-describedby={hasError ? `${name}-error` : undefined}
         />
       )}
+      {/* Inline error message */}
+      <div
+        id={`${name}-error`}
+        role="alert"
+        style={{
+          fontSize: 11, marginTop: 5, paddingLeft: 4,
+          color: '#f87171',
+          display: 'flex', alignItems: 'center', gap: 5,
+          maxHeight: hasError ? 24 : 0,
+          overflow: 'hidden',
+          opacity: hasError ? 1 : 0,
+          transition: 'all .25s cubic-bezier(.22,1,.36,1)',
+        }}
+      >
+        {hasError && (
+          <>
+            <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="#f87171" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+            </svg>
+            {error}
+          </>
+        )}
+      </div>
     </div>
   )
 }
@@ -113,6 +189,8 @@ export default function Contact() {
 
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', message: '' })
   const [focused, setFocused] = useState<string | null>(null)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [sending, setSending] = useState(false)
   const [status, setStatus] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
 
@@ -126,12 +204,46 @@ export default function Contact() {
   }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+    if (touched[name]) {
+      setErrors(prev => ({ ...prev, [name]: validateField(name, value) }))
+    }
+  }
+
+  const handleBlur = (name: string) => {
+    setFocused(null)
+    setTouched(prev => ({ ...prev, [name]: true }))
+    setErrors(prev => ({ ...prev, [name]: validateField(name, formData[name as keyof typeof formData]) }))
+  }
+
+  const validateAll = () => {
+    const fields = ['name', 'email', 'message']
+    const newErrors: Record<string, string> = {}
+    const newTouched: Record<string, boolean> = {}
+    let valid = true
+    fields.forEach(f => {
+      newTouched[f] = true
+      const err = validateField(f, formData[f as keyof typeof formData])
+      newErrors[f] = err
+      if (err) valid = false
+    })
+    // phone optional but validate format if filled
+    if (formData.phone) {
+      const phoneErr = validateField('phone', formData.phone)
+      newErrors.phone = phoneErr
+      if (phoneErr) valid = false
+    }
+    setTouched(prev => ({ ...prev, ...newTouched }))
+    setErrors(prev => ({ ...prev, ...newErrors }))
+    return valid
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus(null)
+    if (!validateAll()) return  // stop if any required field is invalid
+
     const serviceId  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
     const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
     const publicKey  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
@@ -150,6 +262,8 @@ export default function Contact() {
       }, { publicKey })
       setStatus({ type: 'success', msg: ispt ? 'Obrigado! Entraremos em contacto em breve.' : 'Thank you! We will get back to you soon.' })
       setFormData({ name: '', email: '', phone: '', company: '', message: '' })
+      setTouched({})
+      setErrors({})
     } catch {
       setStatus({ type: 'error', msg: ispt ? 'Não foi possível enviar. Tente novamente.' : 'Could not send. Please try again.' })
     } finally {
@@ -594,7 +708,8 @@ export default function Contact() {
                     onChange={handleChange}
                     focused={focused === 'name'}
                     onFocus={() => setFocused('name')}
-                    onBlur={() => setFocused(null)}
+                    onBlur={() => handleBlur('name')}
+                    error={errors.name} touched={touched.name}
                   />
                   <FormField
                     name="email" label={t('contact.form.email')}
@@ -603,7 +718,8 @@ export default function Contact() {
                     onChange={handleChange}
                     focused={focused === 'email'}
                     onFocus={() => setFocused('email')}
-                    onBlur={() => setFocused(null)}
+                    onBlur={() => handleBlur('email')}
+                    error={errors.email} touched={touched.email}
                   />
                 </div>
 
@@ -616,7 +732,8 @@ export default function Contact() {
                     onChange={handleChange}
                     focused={focused === 'phone'}
                     onFocus={() => setFocused('phone')}
-                    onBlur={() => setFocused(null)}
+                    onBlur={() => handleBlur('phone')}
+                    error={errors.phone} touched={touched.phone}
                   />
                   <FormField
                     name="company" label={t('contact.form.company')}
@@ -625,7 +742,7 @@ export default function Contact() {
                     onChange={handleChange}
                     focused={focused === 'company'}
                     onFocus={() => setFocused('company')}
-                    onBlur={() => setFocused(null)}
+                    onBlur={() => handleBlur('company')}
                   />
                 </div>
 
@@ -637,8 +754,38 @@ export default function Contact() {
                   onChange={handleChange}
                   focused={focused === 'message'}
                   onFocus={() => setFocused('message')}
-                  onBlur={() => setFocused(null)}
+                  onBlur={() => handleBlur('message')}
+                  error={errors.message} touched={touched.message}
                 />
+
+                {/* Form completion bar */}
+                {(() => {
+                  const required = ['name', 'email', 'message']
+                  const filled = required.filter(f => formData[f as keyof typeof formData].trim().length > 0 && !errors[f]).length
+                  const pct = Math.round((filled / required.length) * 100)
+                  return filled > 0 ? (
+                    <div style={{ marginBottom: 4, position: 'relative', zIndex: 1 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
+                        <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', letterSpacing: '.08em', textTransform: 'uppercase' }}>
+                          {ispt ? 'Formulário' : 'Form progress'}
+                        </span>
+                        <span style={{ fontSize: 10, color: pct === 100 ? '#4ade80' : '#63C8FF', fontWeight: 600 }}>
+                          {pct}%
+                        </span>
+                      </div>
+                      <div style={{ height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
+                        <div style={{
+                          height: '100%', borderRadius: 2,
+                          width: `${pct}%`,
+                          background: pct === 100
+                            ? 'linear-gradient(90deg, #4ade80, #22c55e)'
+                            : 'linear-gradient(90deg, #63C8FF, #A78BFA)',
+                          transition: 'width .4s cubic-bezier(.22,1,.36,1)',
+                        }} />
+                      </div>
+                    </div>
+                  ) : null
+                })()}
 
                 {/* Submit */}
                 <button type="submit" disabled={sending} className="ct-submit">

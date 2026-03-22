@@ -504,9 +504,8 @@ export default function Hero() {
           minHeight: "100vh",
           background: "#020408",
           overflow: "hidden",
-          overflowX: "hidden",
-          maxWidth: "100vw",
-          marginTop: "-72px",
+          marginTop: "0",
+          paddingTop: "0",
           fontFamily: "'DM Sans', sans-serif",
         }}
       >

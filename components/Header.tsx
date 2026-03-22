@@ -6,7 +6,7 @@ import Logo from '@/components/Logo'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
 
-const SCROLL_THRESHOLD = 60
+const SCROLL_THRESHOLD = 20
 const SECTION_IDS = ['home', 'about', 'team', 'services', 'projects', 'contact'] as const
 
 type SectionId = (typeof SECTION_IDS)[number]
@@ -214,6 +214,11 @@ export default function Header() {
           background: rgba(99,200,255,.1);
         }
 
+        /* Header scrolled state — strong visibility */
+        .hdr-root[data-scrolled="true"] {
+          background: rgba(2, 4, 8, 0.95) !important;
+        }
+
         /* hamburger lines */
         .hdr-ham span {
           display: block; width: 22px; height: 1.5px;
@@ -238,19 +243,24 @@ export default function Header() {
 
       {/* ── Nav bar ─────────────────────────────────────────────────── */}
       <nav
-        className="hdr-root sticky top-0 left-0 right-0 z-50"
+        className="hdr-root"
+        data-scrolled={isScrolled ? 'true' : 'false'}
         style={{
-          /* glass when scrolled, fully transparent on top */
+          position: 'fixed',
+          top: 0, left: 0, right: 0,
+          zIndex: 50,
           background: isTransparent
             ? 'transparent'
-            : 'rgba(2, 4, 8, 0.72)',
-          backdropFilter: isTransparent ? 'none' : 'blur(20px) saturate(160%)',
-          WebkitBackdropFilter: isTransparent ? 'none' : 'blur(20px) saturate(160%)',
+            : 'rgba(2, 4, 8, 0.95)',
+          backdropFilter: isTransparent ? 'none' : 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: isTransparent ? 'none' : 'blur(24px) saturate(180%)',
           borderBottom: isTransparent
-            ? '1px solid rgba(255,255,255,0.08)'
-            : '1px solid rgba(99,200,255,0.1)',
-          boxShadow: isTransparent ? 'none' : '0 0 40px rgba(0,0,0,0.5)',
-          transition: 'background .4s, backdrop-filter .4s, border-color .4s, box-shadow .4s',
+            ? '1px solid rgba(255,255,255,0.06)'
+            : '1px solid rgba(99,200,255,0.15)',
+          boxShadow: isTransparent
+            ? 'none'
+            : '0 1px 0 rgba(99,200,255,0.08), 0 8px 32px rgba(0,0,0,0.6)',
+          transition: 'background .35s ease, backdrop-filter .35s ease, border-color .35s ease, box-shadow .35s ease',
         }}
       >
         {/* Scroll progress bar */}
