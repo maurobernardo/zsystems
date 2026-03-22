@@ -56,10 +56,13 @@ function ThreeCanvas({ canvasRef }: { canvasRef: React.RefObject<HTMLCanvasEleme
       ref={canvasRef as React.RefObject<HTMLCanvasElement>}
       style={{
         position: "absolute",
-        inset: 0,
+        top: 0,
+        left: 0,
         width: "100%",
         height: "100%",
         zIndex: 0,
+        maxWidth: "100vw",
+        overflow: "hidden",
       }}
     />
   );
@@ -97,9 +100,8 @@ export default function Hero() {
       camera.position.set(0, 0, 22);
 
       function resize() {
-        const parent = canvas!.parentElement;
-        const w = parent ? parent.offsetWidth : window.innerWidth;
-        const h = Math.max(window.innerHeight, 600);
+        const w = window.innerWidth;
+        const h = window.innerHeight;
         renderer.setSize(w, h);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
@@ -411,6 +413,11 @@ export default function Hero() {
 
         @media (max-width: 768px) {
           .hero-stats-wrap { gap: 16px !important; }
+          .hero-buttons    { flex-direction: column !important; align-items: center !important; gap: 10px !important; margin-bottom: 40px !important; }
+          .hero-buttons a  { width: 240px !important; justify-content: center !important; }
+        }
+        @media (max-width: 480px) {
+          .hero-stats-wrap { gap: 10px !important; }
         }
       `}</style>
 
@@ -475,7 +482,7 @@ export default function Hero() {
             position: "relative", zIndex: 10,
             minHeight: "100vh",
             display: "flex", alignItems: "center", justifyContent: "center",
-            padding: "80px 40px 80px",
+            padding: "80px 20px 60px",
           }}
         >
           <div style={{ maxWidth: 860, width: "100%", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -491,6 +498,8 @@ export default function Hero() {
                 backdropFilter: "blur(12px)",
                 marginBottom: 28,
                 boxShadow: "0 0 20px rgba(99,200,255,0.08)",
+                flexWrap: "wrap", justifyContent: "center",
+                maxWidth: "90vw", textAlign: "center",
               }}
             >
               <span
