@@ -9,7 +9,7 @@ import { getTranslation } from "@/lib/translations";
 interface ThreeModule {
   WebGLRenderer: new (opts: object) => {
     setPixelRatio: (r: number) => void;
-    setSize: (w: number, h: number) => void;
+    setSize: (w: number, h: number, updateStyle?: boolean) => void;
     setClearColor: (c: number, a: number) => void;
     render: (scene: object, camera: object) => void;
   };
@@ -102,7 +102,7 @@ export default function Hero() {
       function resize() {
         const w = Math.min(window.innerWidth, document.documentElement.clientWidth);
         const h = window.innerHeight;
-        renderer.setSize(w, h, false);
+        renderer.setSize(w, h);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         canvas!.style.width = w + "px";
