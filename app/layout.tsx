@@ -27,7 +27,7 @@ const SITE_URL   = 'https://zsystems.vercel.app'
 const SITE_NAME  = 'Z-Systems'
 const SITE_TITLE = 'Z-Systems | Soluções de TI Inteligentes e Escaláveis'
 const SITE_DESC  = 'Empresa de tecnologia baseada em Beira, Moçambique. Desenvolvimento web, sistemas empresariais, integrações de APIs, UX/UI design e infraestrutura de redes.'
-const SITE_LOGO  = `${SITE_URL}/images/logo9.png`
+const SITE_LOGO  = `${SITE_URL}/images/logo10.png`
 const OG_IMAGE   = `${SITE_URL}/og-image.png`
 
 /* ─── Metadata ───────────────────────────────────────────────────────────── */
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image', title: SITE_TITLE, description: SITE_DESC, images: [OG_IMAGE] },
   icons: {
-    icon: [{ url: '/images/logo9.png', type: 'image/png' }, { url: '/favicon.ico', sizes: '48x48' }],
-    apple: [{ url: '/images/logo9.png', sizes: '180x180', type: 'image/png' }],
-    shortcut: '/images/logo9.png',
+    icon: [{ url: '/images/logo10.png', type: 'image/png' }, { url: '/favicon.ico', sizes: '48x48' }],
+    apple: [{ url: '/images/logo10.png', sizes: '180x180', type: 'image/png' }],
+    shortcut: '/images/logo10.png',
   },
   manifest: '/manifest.json',
   alternates: { canonical: SITE_URL, languages: { 'pt-MZ': SITE_URL, 'en-US': `${SITE_URL}/en` } },

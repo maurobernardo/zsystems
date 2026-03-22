@@ -13,7 +13,8 @@ import FloatingWhatsapp from "@/components/FloatingWhatsapp";
 import SplashScreen from "@/components/SplashScreen";
 import CookieBanner from "@/components/CookieBanner";
 import BackToTop from "@/components/BackToTop";
-import FAQ from '@/components/FAQ'
+import FAQ from "@/components/FAQ";
+import HowWeWork from "@/components/HowWeWork";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
       <About />
       <Team />
       <Services />
+      <HowWeWork />
       <Testimonials />
       <Projects />
       <FAQ />

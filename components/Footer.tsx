@@ -221,6 +221,39 @@ export default function Footer() {
         .ft-ci-val { font-size:12px; color:rgba(255,255,255,.5); line-height:1.5; padding-top:5px; transition:color .2s; }
         .ft-ci:hover .ft-ci-val { color:#fff; }
 
+        /* ── Interactive map ── */
+        .ft-map-wrap {
+          display:block; position:relative;
+          margin-top:16px; border-radius:14px; overflow:hidden;
+          border:1px solid rgba(99,200,255,.15);
+          height:130px;
+          transition:border-color .3s, box-shadow .3s;
+          text-decoration:none;
+        }
+        .ft-map-wrap:hover {
+          border-color:rgba(99,200,255,.4);
+          box-shadow:0 0 20px rgba(99,200,255,.12);
+        }
+        .ft-map-iframe {
+          width:100%; height:100%; border:0;
+          filter:invert(0.92) hue-rotate(180deg) saturate(0.6) brightness(0.85);
+          pointer-events:none;
+          display:block;
+        }
+        .ft-map-overlay {
+          position:absolute; inset:0;
+          background:linear-gradient(to top, rgba(2,4,8,.75) 0%, transparent 50%);
+          display:flex; align-items:flex-end; padding:10px 12px;
+        }
+        .ft-map-pin {
+          display:inline-flex; align-items:center; gap:6px;
+          padding:4px 10px; border-radius:100px;
+          background:rgba(2,4,8,.8); backdrop-filter:blur(8px);
+          border:1px solid rgba(99,200,255,.25);
+          font-size:11px; font-weight:500; color:#63C8FF;
+          white-space:nowrap;
+        }
+
         /* divider */
         .ft-div {
           height:1px; max-width:1200px; margin:0 auto;
@@ -335,6 +368,34 @@ export default function Footer() {
                   )
                 })}
               </div>
+
+              {/* ── Interactive Map ── */}
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Ponta+Gea,+Beira,+Mo%C3%A7ambique"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ft-map-wrap"
+                aria-label={ispt ? 'Ver no Google Maps' : 'View on Google Maps'}
+              >
+                {/* OpenStreetMap embed — no API key needed */}
+                <iframe
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=34.82%2C-19.86%2C34.86%2C-19.82&layer=mapnik&marker=-19.8436%2C34.8389"
+                  className="ft-map-iframe"
+                  loading="lazy"
+                  title="Z-Systems location"
+                  aria-hidden="true"
+                />
+                {/* Overlay with label */}
+                <div className="ft-map-overlay">
+                  <div className="ft-map-pin">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span>{ispt ? 'Ponta-Gea, Beira · Ver no Maps →' : 'Ponta-Gea, Beira · Open in Maps →'}</span>
+                  </div>
+                </div>
+              </a>
             </div>
 
           </div>

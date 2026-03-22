@@ -8,7 +8,7 @@ import Script from 'next/script'
 const FAQ_PT = [
   {
     q: 'Quanto custa desenvolver um website ou sistema?',
-    a: 'O custo varia conforme a complexidade do projecto. Um website institucional começa nos 8000MT, sistemas mais complexos com base de dados e autenticação têm preços personalizados. Contacte-nos para um orçamento gratuito e sem compromisso.',
+    a: 'O custo varia conforme a complexidade do projecto. Um website institucional começa nos 10.000MT, sistemas mais complexos com base de dados e autenticação têm preços personalizados. Contacte-nos para um orçamento gratuito e sem compromisso.',
     hue: 195,
   },
   {
@@ -51,7 +51,7 @@ const FAQ_PT = [
 const FAQ_EN = [
   {
     q: 'How much does it cost to build a website or system?',
-    a: 'Costs vary based on project complexity. A simple corporate website starts at 500 USD, while more complex systems with databases and authentication are priced individually. Contact us for a free, no-commitment quote.',
+    a: 'Costs vary based on project complexity. A simple corporate website starts at 10.000MT, while more complex systems with databases and authentication are priced individually. Contact us for a free, no-commitment quote.',
     hue: 195,
   },
   {
