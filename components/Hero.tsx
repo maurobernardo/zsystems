@@ -79,28 +79,100 @@ export default function Hero() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    /* Dynamically load Three.js (avoids SSR issues) */
+    const isMobile = window.innerWidth < 768;
+
+    /* ── Mobile: Canvas 2D particles (no WebGL, no overflow) ── */
+    if (isMobile) {
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const setSize = () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+        canvas.style.width = w + "px";
+        canvas.style.height = h + "px";
+      };
+      setSize();
+      window.addEventListener("resize", setSize);
+
+      const palette = ["#63C8FF", "#A78BFA", "#F472B6", "#4ade80", "#FB923C"];
+      const nodes = Array.from({ length: 60 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: 1 + Math.random() * 2,
+        color: palette[Math.floor(Math.random() * palette.length)],
+      }));
+
+      let t = 0;
+      const draw = () => {
+        rafRef.current = requestAnimationFrame(draw);
+        t += 0.008;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const W = canvas.width, H = canvas.height;
+
+        nodes.forEach((n) => {
+          n.x += n.vx + Math.sin(t + n.y * 0.02) * 0.1;
+          n.y += n.vy + Math.cos(t + n.x * 0.02) * 0.1;
+          if (n.x < 0) n.x = W; if (n.x > W) n.x = 0;
+          if (n.y < 0) n.y = H; if (n.y > H) n.y = 0;
+
+          const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 4);
+          g.addColorStop(0, n.color + "cc");
+          g.addColorStop(1, n.color + "00");
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r * 4, 0, Math.PI * 2);
+          ctx.fillStyle = g;
+          ctx.fill();
+        });
+
+        /* connections */
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const dx = nodes[i].x - nodes[j].x;
+            const dy = nodes[i].y - nodes[j].y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 80) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(99,200,255,${(1 - d / 80) * 0.15})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      };
+      draw();
+
+      return () => {
+        window.removeEventListener("resize", setSize);
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      };
+    }
+
+    /* ── Desktop: Three.js WebGL ── */
     const script = document.createElement("script");
-    script.src =
-      "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
     script.async = true;
 
     script.onload = () => {
       const THREE = (window as unknown as { THREE: ThreeModule }).THREE;
       if (!THREE) return;
 
-      /* ── Renderer ── */
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setClearColor(0x000000, 0);
 
-      /* ── Scene / Camera ── */
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
       camera.position.set(0, 0, 22);
 
       function resize() {
-        const w = Math.min(window.innerWidth, document.documentElement.clientWidth);
+        const w = window.innerWidth;
         const h = window.innerHeight;
         renderer.setSize(w, h);
         camera.aspect = w / h;
