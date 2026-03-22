@@ -53,7 +53,7 @@ interface ThreeModule {
 function ThreeCanvas({ canvasRef }: { canvasRef: React.RefObject<HTMLCanvasElement | null> }) {
   return (
     <canvas
-      ref={canvasRef}
+      ref={canvasRef as React.RefObject<HTMLCanvasElement>}
       style={{
         position: "absolute",
         inset: 0,
