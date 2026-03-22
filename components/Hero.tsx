@@ -58,11 +58,11 @@ function ThreeCanvas({ canvasRef }: { canvasRef: React.RefObject<HTMLCanvasEleme
         position: "absolute",
         top: 0,
         left: 0,
-        width: "100%",
-        height: "100%",
+        width: "100vw",
+        height: "100vh",
         zIndex: 0,
-        maxWidth: "100vw",
-        overflow: "hidden",
+        display: "block",
+        pointerEvents: "none",
       }}
     />
   );
@@ -100,9 +100,9 @@ export default function Hero() {
       camera.position.set(0, 0, 22);
 
       function resize() {
-        const w = window.innerWidth;
+        const w = Math.min(window.innerWidth, document.documentElement.clientWidth);
         const h = window.innerHeight;
-        renderer.setSize(w, h);
+        renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         canvas!.style.width = w + "px";
@@ -357,6 +357,8 @@ export default function Hero() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
+        html, body { overflow-x: hidden; max-width: 100vw; }
+
         @keyframes fadeUpHero {
           from { opacity: 0; transform: translateY(24px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -430,6 +432,8 @@ export default function Hero() {
           minHeight: "100vh",
           background: "#020408",
           overflow: "hidden",
+          overflowX: "hidden",
+          maxWidth: "100vw",
           marginTop: "-72px",
           fontFamily: "'DM Sans', sans-serif",
         }}
@@ -516,16 +520,6 @@ export default function Hero() {
                 textTransform: "uppercase", color: "#63C8FF",
               }}>
                 {t("hero.tagline")}
-              </span>
-              <span style={{
-                width: 1, height: 12, background: "rgba(99,200,255,0.3)",
-                display: "inline-block",
-              }} />
-              <span style={{
-                fontSize: 11, fontWeight: 400, color: "rgba(255,255,255,0.35)",
-                letterSpacing: "0.05em",
-              }}>
-                Beira · Moçambique
               </span>
             </div>
 
