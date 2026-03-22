@@ -1,290 +1,687 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { getTranslation } from '@/lib/translations'
-import SectionTitlePill from '@/components/SectionTitlePill'
 
+/* ─── Project data ───────────────────────────────────────────────────────── */
+const PROJECTS_PT = [
+  {
+    id: 'agro',
+    title: 'Agro Tech Mozambique',
+    category: 'Website Empresarial',
+    description: 'Website institucional para Agro Tech Mozambique, apresentando serviços, projectos e presença digital da empresa no sector agrícola.',
+    technologies: ['React', 'Next.js', 'Tailwind CSS'],
+    image: '/Projectos/Agro/1.png',
+    link: 'https://agro-tech-mozambique.vercel.app/',
+    imagesPath: '/Projectos/Agro',
+    hue: 145,
+  },
+  {
+    id: 'bioclean',
+    title: 'BioClean Environment',
+    category: 'Website Empresarial',
+    description: 'Website institucional para BioClean Environment, destacando soluções e serviços ambientais da empresa.',
+    technologies: ['React', 'Next.js', 'Tailwind CSS'],
+    image: '/Projectos/Bio/1.png',
+    link: 'https://bioclean-environment.vercel.app/pt',
+    imagesPath: '/Projectos/Bio',
+    hue: 195,
+  },
+  {
+    id: 'ucm',
+    title: 'Sistema Académico UCM-FEG',
+    category: 'Sistema Web',
+    description: 'Sistema web para facilitar o acesso às informações académicas dos estudantes, com assistente virtual com voz para responder dúvidas.',
+    technologies: ['React', 'TypeScript', 'Laravel', 'PHP'],
+    image: '/images/UCM.png',
+    link: 'https://deyril-marlon.vercel.app/',
+    imagesPath: '/Projectos/UCM',
+    hue: 220,
+  },
+  {
+    id: 'deyril',
+    title: 'Portfólio – Deyril Marlon',
+    category: 'Portfólio Web',
+    description: 'Portfólio pessoal moderno com suporte a múltiplos idiomas (PT/EN), modo escuro/claro e chatbot inteligente.',
+    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+    image: '/images/Deyril.png',
+    link: 'https://deyril-marlon.vercel.app/',
+    imagesPath: '/Projectos/Deyril',
+    hue: 280,
+  },
+  {
+    id: 'samson',
+    title: 'Portfólio – Samson Chifamba',
+    category: 'Portfólio Web',
+    description: 'Portfólio profissional com suporte a modo escuro/claro, tradução PT/EN, mapa de localização e hospedagem no Vercel.',
+    technologies: ['React', 'Tailwind CSS'],
+    image: '/images/Samson.png',
+    link: 'https://samson-chifamba.vercel.app/',
+    imagesPath: '/Projectos/Samson',
+    hue: 165,
+  },
+  {
+    id: 'feg',
+    title: 'Gestão de Projectos de Fim de Curso',
+    category: 'Sistema de Gestão',
+    description: 'Sistema web para gestão de projectos de fim de curso do Departamento de Arquitectura da UCM-FEG.',
+    technologies: ['Laravel', 'PHP'],
+    image: '/images/Feg.png',
+    link: null,
+    imagesPath: null,
+    hue: 20,
+  },
+]
+
+const PROJECTS_EN = [
+  {
+    id: 'agro',
+    title: 'Agro Tech Mozambique',
+    category: 'Corporate Website',
+    description: 'Corporate website for Agro Tech Mozambique, showcasing services, projects and company digital presence in the agricultural sector.',
+    technologies: ['React', 'Next.js', 'Tailwind CSS'],
+    image: '/Projectos/Agro/1.png',
+    link: 'https://agro-tech-mozambique.vercel.app/',
+    imagesPath: '/Projectos/Agro',
+    hue: 145,
+  },
+  {
+    id: 'bioclean',
+    title: 'BioClean Environment',
+    category: 'Corporate Website',
+    description: 'Corporate website for BioClean Environment, highlighting the company\'s environmental solutions and services.',
+    technologies: ['React', 'Next.js', 'Tailwind CSS'],
+    image: '/Projectos/Bio/1.png',
+    link: 'https://bioclean-environment.vercel.app/pt',
+    imagesPath: '/Projectos/Bio',
+    hue: 195,
+  },
+  {
+    id: 'ucm',
+    title: 'UCM-FEG Academic System',
+    category: 'Web System',
+    description: 'Web system to facilitate access to students\' academic information. Includes a voice virtual assistant to answer questions.',
+    technologies: ['React', 'TypeScript', 'Laravel', 'PHP'],
+    image: '/images/UCM.png',
+    link: 'https://deyril-marlon.vercel.app/',
+    imagesPath: '/Projectos/UCM',
+    hue: 220,
+  },
+  {
+    id: 'deyril',
+    title: 'Portfolio – Deyril Marlon',
+    category: 'Web Portfolio',
+    description: 'Modern personal portfolio with PT/EN support, dark/light mode, and an intelligent chatbot to answer questions.',
+    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+    image: '/images/Deyril.png',
+    link: 'https://deyril-marlon.vercel.app/',
+    imagesPath: '/Projectos/Deyril',
+    hue: 280,
+  },
+  {
+    id: 'samson',
+    title: 'Portfolio – Samson Chifamba',
+    category: 'Web Portfolio',
+    description: 'Professional portfolio with dark/light mode, PT/EN translation, location map, and hosted on Vercel.',
+    technologies: ['React', 'Tailwind CSS'],
+    image: '/images/Samson.png',
+    link: 'https://samson-chifamba.vercel.app/',
+    imagesPath: '/Projectos/Samson',
+    hue: 165,
+  },
+  {
+    id: 'feg',
+    title: 'End-of-Course Project Management',
+    category: 'Management System',
+    description: 'Web system for managing end-of-course projects for the Architecture Department of UCM-FEG.',
+    technologies: ['Laravel', 'PHP'],
+    image: '/images/Feg.png',
+    link: null,
+    imagesPath: null,
+    hue: 20,
+  },
+]
+
+type Project = (typeof PROJECTS_PT)[0]
+
+/* ─── Project Card ───────────────────────────────────────────────────────── */
+function ProjectCard({ project, index, t, language, visible }: {
+  project: Project
+  index: number
+  t: (k: string) => string
+  language: string
+  visible: boolean
+}) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [hovered, setHovered] = useState(false)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 })
+  const [imgErr, setImgErr] = useState(false)
+
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (!rect) return
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    setMousePos({ x, y })
+    const cx = rect.left + rect.width / 2
+    const cy = rect.top + rect.height / 2
+    setTilt({
+      x: ((e.clientY - cy) / (rect.height / 2)) * -4,
+      y: ((e.clientX - cx) / (rect.width / 2)) * 4,
+    })
+  }
+
+  return (
+    <div
+      ref={cardRef}
+      className={`prj-card${visible ? ' visible' : ''}`}
+      style={{
+        animationDelay: `${index * 0.13}s`,
+        transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(${hovered ? 8 : 0}px)`,
+        transition: hovered ? 'transform .1s ease-out' : 'transform .55s cubic-bezier(.22,1,.36,1)',
+        '--hue': project.hue,
+      } as React.CSSProperties}
+      onMouseMove={onMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => { setHovered(false); setTilt({ x: 0, y: 0 }) }}
+    >
+      {/* Spotlight */}
+      <div className="prj-spotlight" style={{
+        background: `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, hsla(${project.hue},90%,65%,0.1) 0%, transparent 60%)`,
+        opacity: hovered ? 1 : 0,
+      }} />
+
+      {/* Top glow line */}
+      <div className="prj-top-line" style={{
+        background: `linear-gradient(90deg, transparent, hsla(${project.hue},85%,65%,0.7), transparent)`,
+        opacity: hovered ? 1 : 0.2,
+      }} />
+
+      {/* Corner accents */}
+      <div className="prj-corner prj-tl" style={{ borderColor: `hsla(${project.hue},75%,65%,${hovered ? 0.85 : 0.25})` }} />
+      <div className="prj-corner prj-tr" style={{ borderColor: `hsla(${project.hue},75%,65%,${hovered ? 0.85 : 0.25})` }} />
+
+      {/* Image */}
+      <div className="prj-img-wrap">
+        {project.image && !imgErr ? (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="prj-img"
+            style={{ transform: hovered ? 'scale(1.07)' : 'scale(1)' }}
+            onError={() => setImgErr(true)}
+          />
+        ) : (
+          <div className="prj-img-fallback" style={{
+            background: `linear-gradient(135deg, hsla(${project.hue},60%,20%,1), hsla(${project.hue + 40},50%,15%,1))`,
+          }}>
+            <svg width="40" height="40" fill="none" stroke={`hsla(${project.hue},70%,65%,0.5)`} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+        )}
+
+        {/* Image overlay on hover */}
+        <div className="prj-img-overlay" style={{ opacity: hovered ? 1 : 0 }} />
+
+        {/* Category badge */}
+        <div className="prj-badge" style={{
+          background: `rgba(2,4,8,0.75)`,
+          border: `1px solid hsla(${project.hue},70%,60%,${hovered ? 0.5 : 0.25})`,
+          color: `hsla(${project.hue},85%,72%,1)`,
+        }}>
+          {project.category}
+        </div>
+
+        {/* Index number */}
+        <div className="prj-index" style={{
+          color: `hsla(${project.hue},80%,65%,${hovered ? 0.7 : 0.3})`,
+        }}>
+          {String(index + 1).padStart(2, '0')}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="prj-content">
+        {/* Shimmer divider */}
+        <div className="prj-shimmer" style={{
+          background: `linear-gradient(90deg, transparent, hsla(${project.hue},75%,65%,0.5), transparent)`,
+          backgroundSize: '200% 100%',
+          opacity: hovered ? 1 : 0.35,
+        }} />
+
+        <h3 className="prj-title" style={{ color: hovered ? `hsla(${project.hue},90%,85%,1)` : '#fff' }}>
+          {project.title}
+        </h3>
+
+        <p className="prj-desc">{project.description}</p>
+
+        {/* Tech pills */}
+        <div className="prj-pills">
+          {project.technologies.map((tech) => (
+            <span
+              key={tech}
+              className="prj-pill"
+              style={{
+                borderColor: `hsla(${project.hue},70%,60%,${hovered ? 0.4 : 0.2})`,
+                color: `hsla(${project.hue},80%,72%,1)`,
+                background: `hsla(${project.hue},80%,50%,${hovered ? 0.1 : 0.05})`,
+              }}
+            >
+              <span className="prj-pill-dot" style={{ background: `hsla(${project.hue},80%,65%,1)` }} />
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* Action buttons */}
+        <div className="prj-actions">
+          {project.imagesPath ? (
+            <Link href={`/projects/${project.id}`} className="prj-btn prj-btn-details" style={{
+              borderColor: `hsla(${project.hue},70%,60%,0.4)`,
+              color: `hsla(${project.hue},85%,75%,1)`,
+              background: `hsla(${project.hue},80%,50%,0.08)`,
+            }}>
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              {language === 'pt' ? 'Ver Detalhes' : 'View Details'}
+            </Link>
+          ) : (
+            <span className="prj-btn prj-btn-disabled">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              {language === 'pt' ? 'Ver Detalhes' : 'View Details'}
+            </span>
+          )}
+
+          {project.link ? (
+            <a href={project.link} target="_blank" rel="noopener noreferrer"
+              className="prj-btn prj-btn-live"
+              style={{
+                background: `linear-gradient(135deg, hsla(${project.hue},80%,55%,1), hsla(${project.hue + 40},70%,60%,1))`,
+                backgroundSize: '200% 200%',
+                boxShadow: hovered ? `0 0 20px hsla(${project.hue},80%,55%,0.4)` : 'none',
+              }}
+            >
+              {t('projects.viewProject')}
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          ) : (
+            <span className="prj-btn prj-btn-disabled">
+              {t('projects.viewProject')}
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Bottom ambient */}
+      <div className="prj-bottom-glow" style={{
+        background: `radial-gradient(circle, hsla(${project.hue},80%,55%,0.14) 0%, transparent 70%)`,
+        opacity: hovered ? 1 : 0,
+      }} />
+    </div>
+  )
+}
+
+/* ─── Main ───────────────────────────────────────────────────────────────── */
 export default function Projects() {
   const { language } = useLanguage()
   const t = (key: string) => getTranslation(language, key)
   const [visibleCount, setVisibleCount] = useState(3)
-
-  const projects = [
-    {
-      id: 'agro',
-      title: language === 'pt' ? 'Agro Tech Mozambique Website' : 'Agro Tech Mozambique Website',
-      category: language === 'pt' ? 'Website Empresarial' : 'Corporate Website',
-      description: language === 'pt'
-        ? 'Website institucional para Agro Tech Mozambique, apresentando serviços, projetos e presença digital da empresa no setor agrícola.'
-        : 'Corporate website for Agro Tech Mozambique, showcasing services, projects and company digital presence in the agricultural sector.',
-      technologies: ['React', 'Next.js', 'Tailwind CSS'],
-      gradient: 'from-green-600 to-lime-600',
-      image: '/Projectos/Agro/1.png',
-      link: 'https://agro-tech-mozambique.vercel.app/',
-      imagesPath: '/Projectos/Agro',
-    },
-    {
-      id: 'bioclean',
-      title: language === 'pt' ? 'BIOCLEAN ENVIRONMENT Website' : 'BIOCLEAN ENVIRONMENT Website',
-      category: language === 'pt' ? 'Website Empresarial' : 'Corporate Website',
-      description: language === 'pt'
-        ? 'Website institucional para BIOCLEAN ENVIRONMENT, destacando soluções e serviços ambientais da empresa.'
-        : 'Corporate website for BIOCLEAN ENVIRONMENT, highlighting the company\'s environmental solutions and services.',
-      technologies: ['React', 'Next.js', 'Tailwind CSS'],
-      gradient: 'from-cyan-600 to-blue-600',
-      image: '/Projectos/Bio/1.png',
-      link: 'https://bioclean-environment.vercel.app/pt',
-      imagesPath: '/Projectos/Bio',
-    },
-    {
-      id: 'ucm',
-      title: 'Sistema Académico UCM-FEG',
-      category: language === 'pt' ? 'Sistema Web' : 'Web System',
-      description: language === 'pt' 
-        ? 'Sistema web para facilitar o acesso às informações acadêmicas dos estudantes. Permite consultar avisos, controlar créditos, enviar comprovativos de pagamento e acompanhar validações. Inclui assistente virtual com voz para responder dúvidas.'
-        : 'Web system to facilitate access to students\' academic information. Allows checking notices, controlling credits, sending payment receipts, and tracking validations. Includes a voice virtual assistant to answer questions.',
-      technologies: ['React', 'TypeScript', 'Laravel', 'PHP'],
-      gradient: 'from-blue-600 to-indigo-600',
-      image: '/images/UCM.png',
-      link: 'https://deyril-marlon.vercel.app/',
-      imagesPath: '/Projectos/UCM',
-    },
-    {
-      id: 'deyril',
-      title: 'Portfólio Pessoal – Deyril Marlon',
-      category: language === 'pt' ? 'Portfólio Web' : 'Web Portfolio',
-      description: language === 'pt'
-        ? 'Portfólio pessoal moderno e interativo com suporte a múltiplos idiomas (PT/EN), modo escuro/claro e chatbot inteligente para responder perguntas sobre projetos e trajetória profissional.'
-        : 'Modern and interactive personal portfolio with support for multiple languages (PT/EN), dark/light mode, and an intelligent chatbot to answer questions about projects and professional journey.',
-      technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-      gradient: 'from-purple-600 to-pink-600',
-      image: '/images/Deyril.png',
-      link: 'https://deyril-marlon.vercel.app/',
-      imagesPath: '/Projectos/Deyril',
-    },
-    {
-      id: 'samson',
-      title: language === 'pt' ? 'Portfólio do IT Manager da Anantara Bazaruto' : 'Anantara Bazaruto IT Manager Portfolio',
-      category: language === 'pt' ? 'Portfólio Web' : 'Web Portfolio',
-      description: language === 'pt'
-        ? 'Portfólio profissional moderno desenvolvido em React e Tailwind CSS, com suporte a modo escuro/claro, tradução português/inglês, mapa de localização e hospedagem no Vercel.'
-        : 'Modern professional portfolio developed in React and Tailwind CSS, with dark/light mode support, Portuguese/English translation, location map, and hosted on Vercel.',
-      technologies: ['React', 'Tailwind CSS'],
-      gradient: 'from-emerald-600 to-teal-600',
-      image: '/images/Samson.png',
-      link: 'https://samson-chifamba.vercel.app/',
-      imagesPath: '/Projectos/Samson',
-    },
-    {
-      id: 'feg',
-      title: 'Gestão de Projeto de Fim do Curso (Laravel/PHP)',
-      category: language === 'pt' ? 'Sistema de Gestão' : 'Management System',
-      description: language === 'pt'
-        ? 'Desenvolvimento de um sistema web para gestão de projetos de fim do curso do Departamento de Arquitetura da UCM-FEG, facilitando o acompanhamento e a organização.'
-        : 'Development of a web system for managing end-of-course projects for the Architecture Department of UCM-FEG, facilitating tracking and organization.',
-      technologies: ['Laravel', 'PHP'],
-      gradient: 'from-red-600 to-orange-600',
-      image: '/images/Feg.png',
-      link: '#',
-      imagesPath: null,
-    },
-  ]
-
-  const visibleProjectsList = projects.slice(0, visibleCount)
+  const [visible, setVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+  const ispt = language === 'pt'
+  const projects = ispt ? PROJECTS_PT : PROJECTS_EN
+  const shown = projects.slice(0, visibleCount)
   const hasMore = visibleCount < projects.length
 
-  const loadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + 3, projects.length))
-  }
-
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => { if (entries[0].isIntersecting) setVisible(true) },
+      { threshold: 0, rootMargin: '0px 0px -50px 0px' }
+    )
+    if (sectionRef.current) obs.observe(sectionRef.current)
+    return () => obs.disconnect()
+  }, [])
 
   return (
-    <section id="projects" className="bg-gradient-to-b from-primary via-primary-dark to-primary section-padding relative overflow-hidden">
-      {/* Enhanced Background decoration with floating elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-secondary/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-secondary/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-secondary/15 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-      </div>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
-      <div className="container-custom relative z-10">
-        {/* Pill card apenas para título da secção Projectos */}
-        <div className="text-center mb-16 animate-slide-up-fade">
-          <SectionTitlePill>{t('projects.tagline')}</SectionTitlePill>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
-            <span className="bg-gradient-to-r from-white via-secondary-light to-white bg-clip-text text-transparent animate-gradient">
-              {t('projects.title')}
-            </span>
-          </h2>
-          <p className="text-gray-200 text-lg max-w-3xl mx-auto animate-slide-up-fade" style={{ animationDelay: '0.4s' }}>
-            {t('projects.subtitle')}
-          </p>
-        </div>
+        @keyframes prjReveal  { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes prjGrad    { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+        @keyframes prjPulse   { 0%,100%{opacity:.45;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
+        @keyframes prjShimmer { from{background-position:-200% 0} to{background-position:200% 0} }
+        @keyframes prjOrbMove { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.2) translate(16px,-12px)} }
 
-        {/* Enhanced Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
-          {visibleProjectsList.map((project, index) => (
-            <div
-              key={`${project.id}-${index}`}
-              data-project-card
-              data-index={index}
-              className="group relative bg-primary-dark/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border border-secondary/20 animate-slide-up-fade animate-fade-in-scale hover:shadow-2xl hover:shadow-secondary/30 transition-all duration-500 hover:-translate-y-2"
-              style={{ 
-                animationDelay: `${0.3 + index * 0.1}s`,
-                boxShadow: '0 4px 25px rgba(59, 130, 246, 0.15)'
-              }}
-            >
-              {/* Enhanced glow effects */}
-              <div className="absolute inset-0 bg-gradient-to-br from-secondary/0 via-secondary/10 to-secondary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-              <div className="absolute inset-0 border border-secondary/30 opacity-0 group-hover:opacity-100 group-hover:border-secondary/60 transition-all duration-500 rounded-2xl" style={{ boxShadow: '0 0 40px rgba(59, 130, 246, 0.3)' }}></div>
+        /* ── Section ── */
+        .prj-root {
+          position:relative; overflow:hidden;
+          background:#020408;
+          padding:100px 0 120px;
+          font-family:'DM Sans',sans-serif;
+        }
+        .prj-grid-bg {
+          position:absolute; inset:0; pointer-events:none;
+          background-image:
+            linear-gradient(rgba(99,200,255,.03) 1px, transparent 1px),
+            linear-gradient(90deg,rgba(99,200,255,.03) 1px, transparent 1px);
+          background-size:64px 64px;
+          mask-image:radial-gradient(ellipse 85% 85% at 50% 50%, black 0%, transparent 100%);
+          -webkit-mask-image:radial-gradient(ellipse 85% 85% at 50% 50%, black 0%, transparent 100%);
+        }
+        .prj-orb {
+          position:absolute; border-radius:50%;
+          filter:blur(80px); pointer-events:none;
+          animation:prjOrbMove 12s ease-in-out infinite;
+        }
 
-              {/* Enhanced Project Image */}
-              <div className="relative h-52 w-full overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-80`}></div>
-                {project.image ? (
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                  />
-                ) : (
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} flex items-center justify-center group-hover:scale-110 transition-transform duration-500`}>
-                    <svg className="w-24 h-24 text-white/30 group-hover:text-white/50 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                  </div>
-                )}
-                {/* Overlay gradient on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </div>
+        /* ── Header ── */
+        .prj-header {
+          text-align:center; max-width:700px;
+          margin:0 auto 60px; opacity:0;
+        }
+        .prj-header.visible { animation:prjReveal .9s cubic-bezier(.22,1,.36,1) forwards; }
 
-              {/* Enhanced Icon with blue gradient - top left */}
-              <div className="relative p-6 pb-4 z-10">
-                <div className="w-16 h-16 bg-gradient-to-br from-secondary-light via-secondary to-primary rounded-xl flex items-center justify-center text-white shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 mb-6 animate-rotate-in" style={{ 
-                  boxShadow: '0 4px 25px rgba(59, 130, 246, 0.5)',
-                  animationDelay: `${0.4 + index * 0.15}s`
-                }}>
-                  <svg className="w-8 h-8 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                </div>
-                
-                {/* Enhanced Category badge */}
-                <div className="absolute top-6 right-6 bg-secondary/30 backdrop-blur-md rounded-full px-4 py-2 shadow-xl group-hover:scale-110 group-hover:bg-secondary/40 transition-all duration-300 border border-secondary/40 group-hover:border-secondary/60">
-                  <span className="text-secondary-light text-xs font-bold group-hover:text-white transition-colors duration-300">{project.category}</span>
-                </div>
-              </div>
+        .prj-pill {
+          display:inline-flex; align-items:center; gap:8px;
+          padding:5px 16px; border-radius:100px; margin-bottom:20px;
+          border:1px solid rgba(99,200,255,.2);
+          background:rgba(99,200,255,.06); backdrop-filter:blur(10px);
+        }
+        .prj-pill-dot {
+          width:6px; height:6px; border-radius:50%;
+          background:#63C8FF; box-shadow:0 0 6px #63C8FF;
+          animation:prjPulse 2s ease-in-out infinite;
+        }
+        .prj-pill-text {
+          font-size:11px; font-weight:600; letter-spacing:.2em;
+          text-transform:uppercase; color:#63C8FF;
+        }
+        .prj-h2 {
+          font-family:'Syne',sans-serif;
+          font-size:clamp(26px,3.5vw,46px);
+          font-weight:800; line-height:1.1; letter-spacing:-.02em;
+          margin-bottom:16px;
+          background:linear-gradient(135deg,#fff 30%,rgba(99,200,255,.7) 70%,#fff 100%);
+          background-size:300% 300%;
+          -webkit-background-clip:text; background-clip:text;
+          -webkit-text-fill-color:transparent;
+          animation:prjGrad 8s linear infinite;
+        }
+        .prj-subtitle {
+          font-size:clamp(14px,1.5vw,16px); font-weight:300;
+          color:rgba(255,255,255,.5); line-height:1.7;
+        }
 
-              {/* Enhanced Content */}
-              <div className="px-6 pb-6 relative z-10">
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-secondary-light transition-colors duration-300">
-                  {project.title}
-                </h3>
-                <p className="text-gray-300 mb-3 leading-relaxed text-sm group-hover:text-gray-200 transition-colors duration-300">
-                  {project.description}
-                </p>
+        /* ── Grid ── */
+        .prj-grid {
+          display:grid;
+          grid-template-columns:repeat(3,1fr);
+          gap:20px; max-width:1100px;
+          margin:0 auto;
+        }
 
-                {/* Enhanced Technologies */}
-                <div className="flex flex-wrap gap-2 mb-0">
-                  {project.technologies.map((tech, techIndex) => (
-                    <span
-                      key={techIndex}
-                      className="px-3 py-1.5 bg-secondary/15 text-secondary-light text-xs font-semibold rounded-full border border-secondary/30 group-hover:border-secondary/50 group-hover:bg-secondary/25 transition-all duration-300 hover:scale-105"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+        /* ── Card ── */
+        .prj-card {
+          position:relative; border-radius:22px;
+          border:1px solid rgba(255,255,255,.07);
+          background:rgba(255,255,255,.03);
+          backdrop-filter:blur(16px);
+          overflow:hidden;
+          transform-style:preserve-3d;
+          cursor:default;
+          opacity:0;
+        }
+        .prj-card.visible { animation:prjReveal .8s cubic-bezier(.22,1,.36,1) forwards; }
 
-                {/* Action Buttons - Always at the bottom */}
-                <div className="flex flex-col gap-3 mt-2">
-                  {project.imagesPath ? (
-                    <Link
-                      href={`/projects/${project.id}`}
-                      className="group/details inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 bg-gradient-to-r from-secondary/30 to-secondary/20 hover:from-secondary/40 hover:to-secondary/30 border border-secondary/50 hover:border-secondary/70 rounded-xl transition-all duration-300 text-white hover:text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:shadow-secondary/40 hover:scale-[1.02]"
-                    >
-                      <svg className="w-4 h-4 group-hover/details:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                      <span>{language === 'pt' ? 'Ver Detalhes' : 'View Details'}</span>
-                    </Link>
-                  ) : (
-                    <button
-                      disabled
-                      className="inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 bg-gradient-to-r from-gray-600/20 to-gray-600/10 border border-gray-600/30 rounded-xl text-gray-500 font-semibold text-sm cursor-not-allowed opacity-50"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                      <span>{language === 'pt' ? 'Ver Detalhes' : 'View Details'}</span>
-                    </button>
-                  )}
-                  {project.link && project.link !== '#' ? (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group/link inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 bg-gradient-to-r from-secondary/25 to-secondary/15 hover:from-secondary/35 hover:to-secondary/25 border border-secondary/40 hover:border-secondary/60 rounded-xl transition-all duration-300 text-secondary-light hover:text-white font-semibold text-sm shadow-lg hover:shadow-xl hover:shadow-secondary/30 hover:scale-[1.02]"
-                    >
-                      <span>{t('projects.viewProject')}</span>
-                      <svg className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </a>
-                  ) : (
-                    <button
-                      disabled
-                      className="inline-flex items-center justify-center gap-2 w-full px-5 py-3.5 bg-gradient-to-r from-gray-600/20 to-gray-600/10 border border-gray-600/30 rounded-xl text-gray-500 font-semibold text-sm cursor-not-allowed opacity-50"
-                    >
-                      <span>{t('projects.viewProject')}</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </button>
-                  )}
-                </div>
-              </div>
+        .prj-spotlight {
+          position:absolute; inset:0; border-radius:22px;
+          pointer-events:none; z-index:0; transition:opacity .3s;
+        }
+        .prj-top-line {
+          position:absolute; top:0; left:8%; right:8%;
+          height:1px; border-radius:1px; z-index:5;
+          transition:opacity .4s;
+        }
+        .prj-corner {
+          position:absolute; width:16px; height:16px;
+          border-width:1.5px; border-style:solid;
+          pointer-events:none; z-index:5;
+          transition:border-color .4s;
+        }
+        .prj-tl { top:14px; left:14px; border-right:none; border-bottom:none; border-radius:4px 0 0 0; }
+        .prj-tr { top:14px; right:14px; border-left:none; border-bottom:none; border-radius:0 4px 0 0; }
+
+        /* image */
+        .prj-img-wrap {
+          position:relative; height:200px; overflow:hidden;
+        }
+        .prj-img {
+          object-fit:cover; object-position:top center;
+          transition:transform .6s cubic-bezier(.22,1,.36,1) !important;
+        }
+        .prj-img-fallback {
+          position:absolute; inset:0;
+          display:flex; align-items:center; justify-content:center;
+        }
+        .prj-img-overlay {
+          position:absolute; inset:0; z-index:2;
+          background:linear-gradient(to top, rgba(2,4,8,.85) 0%, rgba(2,4,8,.1) 60%, transparent 100%);
+          transition:opacity .4s;
+        }
+        .prj-badge {
+          position:absolute; bottom:12px; left:14px; z-index:4;
+          font-size:10px; font-weight:600; letter-spacing:.1em;
+          text-transform:uppercase;
+          padding:4px 10px; border-radius:100px;
+          backdrop-filter:blur(8px);
+          transition:border-color .4s;
+        }
+        .prj-index {
+          position:absolute; top:14px; right:56px; z-index:4;
+          font-family:'Syne',sans-serif;
+          font-size:12px; font-weight:700; letter-spacing:.08em;
+          transition:color .4s;
+        }
+
+        /* content */
+        .prj-content { padding:18px 20px 22px; position:relative; z-index:1; }
+
+        .prj-shimmer {
+          height:1px; width:100%; border-radius:1px;
+          margin-bottom:14px;
+          animation:prjShimmer 4s linear infinite;
+          transition:opacity .4s;
+        }
+        .prj-title {
+          font-family:'Syne',sans-serif;
+          font-size:17px; font-weight:700; line-height:1.25;
+          margin-bottom:8px; transition:color .3s;
+        }
+        .prj-desc {
+          font-size:13px; color:rgba(255,255,255,.5);
+          line-height:1.6; margin-bottom:14px;
+        }
+
+        /* tech pills */
+        .prj-pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+        .prj-pill {
+          display:inline-flex; align-items:center; gap:5px;
+          padding:4px 10px; border-radius:100px;
+          font-size:11px; font-weight:500;
+          border-width:1px; border-style:solid;
+          transition:all .25s;
+        }
+        .prj-pill-dot { width:4px; height:4px; border-radius:50%; flex-shrink:0; }
+
+        /* action buttons */
+        .prj-actions { display:flex; gap:8px; flex-wrap:wrap; }
+        .prj-btn {
+          flex:1; min-width:0;
+          display:inline-flex; align-items:center; justify-content:center; gap:6px;
+          padding:9px 12px; border-radius:12px;
+          font-size:12px; font-weight:600; letter-spacing:.01em;
+          text-decoration:none;
+          transition:all .25s; white-space:nowrap;
+          border:1px solid transparent;
+        }
+        .prj-btn-details:hover {
+          filter:brightness(1.15);
+          transform:translateY(-1px);
+        }
+        .prj-btn-live {
+          color:#020408 !important;
+          animation:prjGrad 4s linear infinite;
+          border:none;
+        }
+        .prj-btn-live:hover {
+          transform:translateY(-1px);
+          filter:brightness(1.1);
+        }
+        .prj-btn-disabled {
+          color:rgba(255,255,255,.25) !important;
+          background:rgba(255,255,255,.03) !important;
+          border-color:rgba(255,255,255,.06) !important;
+          cursor:not-allowed;
+        }
+
+        /* bottom glow */
+        .prj-bottom-glow {
+          position:absolute; bottom:-30px; right:-30px;
+          width:130px; height:130px; border-radius:50%;
+          pointer-events:none; transition:opacity .4s;
+        }
+
+        /* ── Load more btn ── */
+        .prj-load-btn {
+          display:inline-flex; align-items:center; gap:10px;
+          padding:12px 28px; border-radius:100px;
+          font-size:14px; font-weight:500; letter-spacing:.02em;
+          color:#020408; cursor:pointer; border:none;
+          background:linear-gradient(135deg,#63C8FF,#A78BFA,#F472B6);
+          background-size:200% 200%;
+          animation:prjGrad 4s linear infinite;
+          box-shadow:0 0 24px rgba(99,200,255,.25);
+          transition:transform .2s, box-shadow .2s;
+        }
+        .prj-load-btn:hover {
+          transform:translateY(-2px) scale(1.02);
+          box-shadow:0 0 44px rgba(99,200,255,.45);
+        }
+
+        /* ── CTA block ── */
+        .prj-cta {
+          text-align:center; margin-top:64px; opacity:0;
+        }
+        .prj-cta.visible { animation:prjReveal .9s cubic-bezier(.22,1,.36,1) .2s forwards; }
+        .prj-cta-text {
+          font-size:clamp(15px,1.8vw,18px); color:rgba(255,255,255,.55);
+          line-height:1.6; margin-bottom:24px;
+        }
+        .prj-cta-btn {
+          display:inline-flex; align-items:center; gap:10px;
+          padding:13px 28px; border-radius:100px;
+          font-size:14px; font-weight:500; letter-spacing:.02em;
+          color:#020408; text-decoration:none;
+          background:linear-gradient(135deg,#63C8FF,#A78BFA,#F472B6);
+          background-size:200% 200%;
+          animation:prjGrad 4s linear infinite;
+          box-shadow:0 0 24px rgba(99,200,255,.25);
+          transition:transform .2s, box-shadow .2s;
+        }
+        .prj-cta-btn:hover {
+          transform:translateY(-2px) scale(1.02);
+          box-shadow:0 0 44px rgba(99,200,255,.45);
+        }
+        .prj-cta-arrow { transition:transform .2s; display:inline-block; }
+        .prj-cta-btn:hover .prj-cta-arrow { transform:translateX(4px); }
+
+        @media(max-width:900px){
+          .prj-grid { grid-template-columns:repeat(2,1fr); }
+        }
+        @media(max-width:580px){
+          .prj-root { padding:64px 0 80px; }
+          .prj-grid { grid-template-columns:1fr; }
+        }
+      `}</style>
+
+      <section ref={sectionRef} id="projects" className="prj-root">
+        {/* Grid bg */}
+        <div className="prj-grid-bg" aria-hidden />
+
+        {/* Orbs */}
+        <div className="prj-orb" aria-hidden style={{ width:500, height:500, top:'-12%', right:'-6%', background:'radial-gradient(circle,rgba(99,200,255,.07) 0%,transparent 65%)', animationDelay:'0s' }} />
+        <div className="prj-orb" aria-hidden style={{ width:400, height:400, bottom:'-8%', left:'-5%', background:'radial-gradient(circle,rgba(167,139,250,.07) 0%,transparent 65%)', animationDelay:'5s' }} />
+        <div className="prj-orb" aria-hidden style={{ width:260, height:260, top:'45%', left:'38%', background:'radial-gradient(circle,rgba(244,114,182,.05) 0%,transparent 65%)', animationDelay:'9s' }} />
+
+        <div style={{ maxWidth:1200, margin:'0 auto', padding:'0 24px' }}>
+
+          {/* Header */}
+          <div className={`prj-header${visible ? ' visible' : ''}`}>
+            <div className="prj-pill">
+              <span className="prj-pill-dot" />
+              <span className="prj-pill-text">{t('projects.tagline')}</span>
             </div>
-          ))}
-        </div>
-
-        {/* Load More Button */}
-        {hasMore && (
-          <div className="text-center mt-12 animate-slide-up-fade">
-            <button
-              onClick={loadMore}
-              className="btn-primary text-lg px-8 py-4 group shadow-xl hover:shadow-2xl hover:shadow-secondary/40"
-            >
-              <span className="font-semibold">{language === 'pt' ? 'Ver Mais Projetos' : 'Load More Projects'}</span>
-              <svg className="w-5 h-5 group-hover:translate-y-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+            <h2 className="prj-h2">{t('projects.title')}</h2>
+            <p className="prj-subtitle">{t('projects.subtitle')}</p>
           </div>
-        )}
 
-        {/* Enhanced CTA */}
-        <div className="text-center mt-16 animate-slide-up-fade" style={{ animationDelay: '0.9s' }}>
-          <p className="text-gray-200 mb-6 text-lg md:text-xl">
-            {t('projects.ready')}
-          </p>
-          <a href="#contact" className="btn-primary text-lg px-8 py-4 group shadow-xl hover:shadow-2xl hover:shadow-secondary/40 animate-bounce-in" style={{ animationDelay: '1s' }}>
-            <span className="font-semibold">{t('projects.startProject')}</span>
-            <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
+          {/* Cards grid */}
+          <div className="prj-grid">
+            {shown.map((project, i) => (
+              <ProjectCard
+                key={`${project.id}-${i}`}
+                project={project}
+                index={i}
+                t={t}
+                language={language}
+                visible={visible}
+              />
+            ))}
+          </div>
+
+          {/* Load more */}
+          {hasMore && (
+            <div style={{ textAlign: 'center', marginTop: 40 }}>
+              <button
+                className="prj-load-btn"
+                onClick={() => setVisibleCount((v) => Math.min(v + 3, projects.length))}
+              >
+                <span>{ispt ? 'Ver Mais Projectos' : 'Load More Projects'}</span>
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          )}
+
+          {/* CTA */}
+          <div className={`prj-cta${visible ? ' visible' : ''}`}>
+            <p className="prj-cta-text">{t('projects.ready')}</p>
+            <a href="#contact" className="prj-cta-btn">
+              <span>{t('projects.startProject')}</span>
+              <span className="prj-cta-arrow">→</span>
+            </a>
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
