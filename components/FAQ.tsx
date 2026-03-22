@@ -8,7 +8,7 @@ import Script from 'next/script'
 const FAQ_PT = [
   {
     q: 'Quanto custa desenvolver um website ou sistema?',
-    a: 'O custo varia conforme a complexidade do projecto. Um website institucional começa nos 500 USD, sistemas mais complexos com base de dados e autenticação têm preços personalizados. Contacte-nos para um orçamento gratuito e sem compromisso.',
+    a: 'O custo varia conforme a complexidade do projecto. Um website institucional começa nos 8000MT, sistemas mais complexos com base de dados e autenticação têm preços personalizados. Contacte-nos para um orçamento gratuito e sem compromisso.',
     hue: 195,
   },
   {
