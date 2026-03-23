@@ -476,7 +476,7 @@ export default function Testimonials() {
             {[
               { num: '100%', label: ispt ? 'Satisfação' : 'Satisfaction' },
               { num: '4',    label: ispt ? 'Clientes'   : 'Clients' },
-              { num: '5',    label: ispt ? 'Projectos'  : 'Projects' },
+              { num: '6',    label: ispt ? 'Projectos'  : 'Projects' },
               { num: '2026', label: ispt ? 'Fundada em' : 'Founded' },
             ].map((item, i, arr) => (
               <>

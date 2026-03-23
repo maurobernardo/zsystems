@@ -527,7 +527,7 @@ export default function Hero() {
             }}>
               {[
                 { num: "4",    label: "Clientes",   color: "#63C8FF" },
-                { num: "5",    label: "Projectos",  color: "#A78BFA" },
+                { num: "6",    label: "Projectos",  color: "#A78BFA" },
                 { num: "100%", label: "Satisfação", color: "#4ade80" },
                 { num: "2026", label: "Fundada",    color: "#F472B6" },
               ].map((s, i) => (

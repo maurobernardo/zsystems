@@ -685,7 +685,7 @@ export default function About() {
               <div className="abt-stats-grid abt-reveal">
                 {[
                   { value: 4,  suffix: '',  label: ispt ? 'Clientes'  : 'Clients' },
-                  { value: 5,  suffix: '',  label: ispt ? 'Projectos' : 'Projects' },
+                  { value: 6,  suffix: '',  label: ispt ? 'Projectos' : 'Projects' },
                   { value: 1,  suffix: '',  label: ispt ? 'Ano Activo' : 'Year Active' },
                 ].map((s, i) => (
                   <StatCard
