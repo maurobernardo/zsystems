@@ -273,7 +273,8 @@ export default function ProjectDetails() {
         /* ── Section ── */
         .pd-section {
           position:relative; z-index:1;
-          padding:32px 0 100px;
+          padding-top:calc(72px + 32px); /* fixed header height + spacing */
+          padding-bottom:100px;
           max-width:1200px; margin:0 auto;
           padding-left:24px; padding-right:24px;
         }
@@ -525,7 +526,11 @@ export default function ProjectDetails() {
         <div className="pd-section">
 
           {/* Back */}
-          <Link href="/#projects" className="pd-back">
+          <button
+            onClick={() => router.back()}
+            className="pd-back"
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
             <svg className="pd-back-arrow" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -535,7 +540,7 @@ export default function ProjectDetails() {
               {project.category[language as 'pt' | 'en']}
             </span>
             <span>{ispt ? 'Voltar aos Projectos' : 'Back to Projects'}</span>
-          </Link>
+          </button>
 
           {/* Cover */}
           {project.image && (
