@@ -5,7 +5,7 @@ export const translations = {
     // Header
     header: {
       address: 'Beira, Mozambique',
-      email: 'zsystems9@gmail.com',
+      email: 'info@zsystems.online',
       officeHours: 'Office Hours: 9:00 AM to 06:00 PM',
       callUs: 'Call us today',
       home: 'Home',
@@ -134,7 +134,7 @@ export const translations = {
         message: 'Message *',
         send: 'Send Message',
         namePlaceholder: 'Mauro Zibane',
-        emailPlaceholder: 'zsystems9@gmail.com',
+        emailPlaceholder: 'info@zsystems.online',
         phonePlaceholder: '870107006',
         companyPlaceholder: 'Z-Systems',
         messagePlaceholder: 'Tell us about your project...',
@@ -171,7 +171,7 @@ export const translations = {
     // Header
     header: {
       address: 'Beira, Moçambique',
-      email: 'zsystems9@gmail.com',
+      email: 'info@zsystems.online',
       officeHours: 'Horário de Funcionamento: 9:00 às 18:00',
       callUs: 'Ligue-nos hoje',
       home: 'Início',
@@ -300,7 +300,7 @@ export const translations = {
         message: 'Mensagem *',
         send: 'Enviar Mensagem',
         namePlaceholder: 'Mauro Zibane',
-        emailPlaceholder: 'zsystems9@gmail.com',
+        emailPlaceholder: 'info@zsystems.online',
         phonePlaceholder: '870107006',
         companyPlaceholder: 'Z-Systems',
         messagePlaceholder: 'Conte-nos sobre o seu projeto...',
