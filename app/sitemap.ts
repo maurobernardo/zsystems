@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const BASE = 'https://zsystems.vercel.app'
+const BASE = 'https://zsystems.online'
 const NOW  = new Date().toISOString()
 
 export default function sitemap(): MetadataRoute.Sitemap {

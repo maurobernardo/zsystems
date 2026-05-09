@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/_next/', '/admin/'],
       },
     ],
-    sitemap: 'https://zsystems.vercel.app/sitemap.xml',
-    host: 'https://zsystems.vercel.app',
+    sitemap: 'https://zsystems.online/sitemap.xml',
+    host: 'https://zsystems.online',
   }
 }
