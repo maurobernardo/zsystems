@@ -23,7 +23,7 @@ const dmSans = DM_Sans({
 })
 
 /* ─── Constants ──────────────────────────────────────────────────────────── */
-const SITE_URL   = 'https://zsystems.vercel.app'
+const SITE_URL   = 'https://zsystems.online'
 const SITE_NAME  = 'Z-Systems'
 const SITE_TITLE = 'Z-Systems | Soluções de TI Inteligentes e Escaláveis'
 const SITE_DESC  = 'Empresa de tecnologia baseada em Beira, Moçambique. Desenvolvimento web, sistemas empresariais, integrações de APIs, UX/UI design e infraestrutura de redes.'

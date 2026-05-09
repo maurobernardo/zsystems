@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: '1. Quem somos',
-    content: 'A Z-Systems é uma empresa de tecnologia sediada em Ponta-Gea, Beira, Moçambique. Somos responsáveis pelo tratamento dos dados recolhidos através deste website (zsystems.vercel.app).',
+    content: 'A Z-Systems é uma empresa de tecnologia sediada em Ponta-Gea, Beira, Moçambique. Somos responsáveis pelo tratamento dos dados recolhidos através deste website (zsystems.online).',
   },
   {
     title: '2. Dados que recolhemos',
