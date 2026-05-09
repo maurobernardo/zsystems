@@ -108,6 +108,7 @@ const MEMBERS: Member[] = [
     accentHue: 45,
     socials: [
       { href: 'https://www.instagram.com/heltoncjr', label: 'Instagram', fill: true, path: PATH_INSTAGRAM },
+      { href: 'https://www.linkedin.com/in/helton-cunha-0a7b98408', label: 'LinkedIn', fill: true, path: PATH_LINKEDIN },
     ],
   },
 ]
