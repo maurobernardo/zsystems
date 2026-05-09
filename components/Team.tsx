@@ -63,7 +63,7 @@ const MEMBERS: Member[] = [
     socials: [
       { href: 'https://github.com/maurobernardo', label: 'GitHub', fill: true, path: PATH_GITHUB },
       { href: 'https://www.linkedin.com/in/mauro-bernardo-zibane-5619b427a/', label: 'LinkedIn', fill: true, path: PATH_LINKEDIN },
-      { href: 'https://mauro-zibanee.vercel.app/#projetos', label: 'Portfolio', fill: false, path: PATH_PORTFOLIO },
+      { href: 'https://mauro-zibanee.vercel.app/', label: 'Portfolio', fill: false, path: PATH_PORTFOLIO },
     ],
   },
   {
@@ -97,6 +97,7 @@ const MEMBERS: Member[] = [
     socials: [
       { href: 'https://www.linkedin.com/in/frank-walter-simbine-94833a339', label: 'LinkedIn', fill: true, path: PATH_LINKEDIN },
       { href: 'https://www.instagram.com/frank_walter_9', label: 'Instagram', fill: true, path: PATH_INSTAGRAM },
+      { href: 'https://frank-walter-simbine.vercel.app/', label: 'Portfolio', fill: false, path: PATH_PORTFOLIO },
     ],
   },
   {

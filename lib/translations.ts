@@ -266,7 +266,7 @@ export const translations = {
         bio: 'Designer criativo focado em criar experiências de usuário intuitivas e bonitas. Especializado em design de interfaces e otimização de experiência do usuário.',
       },
       developer1: {
-        name: 'Frank Walters Simbine',
+        name: 'Frank Walter Simbine',
         role: 'Desenvolvedor Web',
         bio: 'Desenvolvedor web focado em construir aplicações web modernas, responsivas e performáticas para empresas.',
       },
