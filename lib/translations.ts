@@ -106,7 +106,7 @@ export const translations = {
       },
       developer2: {
         name: 'Helton Samo Cunha Jr',
-        role: 'Web Developer',
+        role: 'Full Stack Developer',
         bio: 'Web developer dedicated to creating scalable and maintainable digital solutions.',
       },
     },
@@ -272,7 +272,7 @@ export const translations = {
       },
       developer2: {
         name: 'Helton Samo Cunha Jr',
-        role: 'Desenvolvedor Web',
+        role: 'Desenvolvedor Full Stack',
         bio: 'Desenvolvedor web dedicado a criar soluções digitais escaláveis e fáceis de manter.',
       },
     },

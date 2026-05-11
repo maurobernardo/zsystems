@@ -22,7 +22,7 @@ export default function Logo({
   if (fill) {
     return (
       <Image
-        src="/images/logo10.png"
+        src="/images/logo11.png"
         alt={alt}
         fill
         priority={priority}
@@ -34,7 +34,7 @@ export default function Logo({
 
   return (
     <Image
-      src="/images/logo10.png"
+      src="/images/logo11.png"
       alt={alt}
       width={size}
       height={size}

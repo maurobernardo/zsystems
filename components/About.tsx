@@ -36,7 +36,6 @@ function StatCard({ value, suffix, label, delay, visible, hue }: {
       onMouseLeave={() => setHovered(false)}
     >
       <div className="abt-stat-orb" />
-      {/* top edge glow */}
       <div style={{
         position: 'absolute', top: 0, left: '15%', right: '15%', height: 1,
         background: `linear-gradient(90deg, transparent, hsla(${hue},90%,65%,${hovered ? 0.9 : 0.25}), transparent)`,
@@ -50,7 +49,7 @@ function StatCard({ value, suffix, label, delay, visible, hue }: {
   )
 }
 
-/* ─── 3D Background Canvas (same as Team) ───────────────────────────────── */
+/* ─── 3D Background Canvas ───────────────────────────────────────────────── */
 function AboutCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number | null>(null)
@@ -207,14 +206,37 @@ function AboutCanvas() {
   )
 }
 
-/* ─── 3D Image Card ─────────────────────────────────────────────────────── */
+/* ─── 3D Image Card com flip automático ─────────────────────────────────── */
+const IMAGES = ['/images/about5.png', '/images/about6.png', '/images/about7.png']  // ← ajusta os nomes reais
+
 function ImageCard3D() {
   const cardRef = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [hovered, setHovered] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 })
 
+  // ── flip state ──
+  const [imgIndex, setImgIndex] = useState(0)          // imagem visível actualmente
+  const [flipping, setFlipping] = useState(false)       // a animação está a correr?
+  const [flipY, setFlipY] = useState(0)                 // graus de rotação Y do card inteiro
+
+  // Troca de imagem a cada 3 s
+useEffect(() => {
+    if (hovered) return
+    const id = setInterval(() => {
+      setFlipping(true)
+      setFlipY(90)
+      setTimeout(() => {
+        setImgIndex(prev => (prev + 1) % IMAGES.length)
+        setFlipY(0)
+        setTimeout(() => setFlipping(false), 450)
+      }, 450)
+    }, 3000)
+    return () => clearInterval(id)
+  }, [hovered])
+
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (flipping) return                                 // não interfere com o flip
     const rect = cardRef.current?.getBoundingClientRect()
     if (!rect) return
     const x = (e.clientX - rect.left) / rect.width
@@ -223,23 +245,34 @@ function ImageCard3D() {
     setTilt({ x: (y - 0.5) * -16, y: (x - 0.5) * 16 })
   }
 
+  // Combina tilt do rato com o flipY
+  const transform = flipping
+    ? `perspective(1000px) rotateY(${flipY}deg)`
+    : `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y + flipY}deg) translateZ(${hovered ? 12 : 0}px)`
+
+  const transition = flipping
+    ? 'transform 0.45s cubic-bezier(.4,0,.2,1)'
+    : hovered
+      ? 'transform 0.1s ease-out'
+      : 'transform 0.6s cubic-bezier(.22,1,.36,1)'
+
   return (
     <div
       ref={cardRef}
       onMouseMove={onMove}
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={() => { if (!flipping) setHovered(true) }}
       onMouseLeave={() => { setHovered(false); setTilt({ x: 0, y: 0 }); setMousePos({ x: 50, y: 50 }) }}
       style={{
         position: 'relative',
         transformStyle: 'preserve-3d',
-        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(${hovered ? 12 : 0}px)`,
-        transition: hovered ? 'transform 0.1s ease-out' : 'transform 0.6s cubic-bezier(.22,1,.36,1)',
+        transform,
+        transition,
         borderRadius: 28,
         border: `1px solid hsla(195,70%,60%,${hovered ? 0.45 : 0.12})`,
         background: 'rgba(2,4,8,0.85)',
         backdropFilter: 'blur(20px)',
         overflow: 'hidden',
-        aspectRatio: '4/5',
+        aspectRatio: '6/6',
         boxShadow: hovered
           ? '0 40px 100px hsla(195,80%,50%,0.3), 0 0 0 1px hsla(195,80%,60%,0.2), inset 0 1px 0 hsla(195,80%,80%,0.1)'
           : '0 16px 48px rgba(0,0,0,0.5)',
@@ -260,23 +293,36 @@ function ImageCard3D() {
         transition: 'all 0.4s', zIndex: 5,
       }} />
 
-      {/* Photo */}
+      {/* Imagens — fade cruzado suave durante o flip */}
       <div style={{ position: 'relative', width: '100%', height: '100%', zIndex: 2 }}>
-        <Image
-          src="/images/about4.png"
-          alt="Tecnologia e transformação digital"
-          fill
-          style={{ objectFit: 'cover', objectPosition: 'center',
-            transform: hovered ? 'scale(1.05)' : 'scale(1)',
-            transition: 'transform 0.6s cubic-bezier(.22,1,.36,1)',
-          }}
-          priority
-        />
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to top, rgba(2,4,8,0.9) 0%, rgba(2,4,8,0.35) 50%, transparent 100%)',
-          zIndex: 1,
-        }} />
+        {IMAGES.map((src, i) => (
+          <div
+            key={src}
+            style={{
+              position: 'absolute', inset: 0,
+              opacity: i === imgIndex ? 1 : 0,
+              transition: flipping ? 'opacity 0s' : 'opacity 0.15s ease',
+              pointerEvents: 'none',
+            }}
+          >
+            <Image
+              src={src}
+              alt={`Tecnologia e transformação digital ${i + 1}`}
+              fill
+              style={{
+                objectFit: 'cover', objectPosition: 'center',
+                transform: hovered && i === imgIndex ? 'scale(1.05)' : 'scale(1)',
+                transition: 'transform 0.6s cubic-bezier(.22,1,.36,1)',
+              }}
+              priority={i === 0}
+            />
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(to top, rgba(2,4,8,0.9) 0%, rgba(2,4,8,0.35) 50%, transparent 100%)',
+              zIndex: 1,
+            }} />
+          </div>
+        ))}
       </div>
 
       {/* Scanlines */}
@@ -299,7 +345,23 @@ function ImageCard3D() {
         }} />
       ))}
 
-      {/* 3D floating badge — year */}
+      {/* Indicadores de slide */}
+      <div style={{
+        position: 'absolute', bottom: 20, right: 20, zIndex: 8,
+        display: 'flex', gap: 6, alignItems: 'center',
+      }}>
+        {IMAGES.map((_, i) => (
+          <div key={i} style={{
+            width: i === imgIndex ? 18 : 6,
+            height: 6, borderRadius: 3,
+            background: i === imgIndex ? '#63C8FF' : 'rgba(255,255,255,0.25)',
+            boxShadow: i === imgIndex ? '0 0 8px rgba(99,200,255,0.7)' : 'none',
+            transition: 'all 0.4s cubic-bezier(.22,1,.36,1)',
+          }} />
+        ))}
+      </div>
+
+      {/* Badge */}
       <div style={{
         position: 'absolute', bottom: 20, left: 20, zIndex: 8,
         display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -308,8 +370,6 @@ function ImageCard3D() {
         fontSize: 11, fontWeight: 700, letterSpacing: '0.2em',
         color: '#020408', textTransform: 'uppercase',
         boxShadow: '0 4px 24px rgba(99,200,255,0.4)',
-        transform: hovered ? 'translateZ(30px) scale(1.05)' : 'translateZ(0)',
-        transition: 'transform 0.3s',
         animation: 'abtFloat 3s ease-in-out infinite',
       }}>
         <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#020408', opacity: 0.6 }} />
@@ -498,7 +558,6 @@ export default function About() {
           fontFamily: "'DM Sans', sans-serif",
         }}
       >
-        {/* 3D canvas background */}
         <AboutCanvas />
 
         {/* Grid overlay */}
@@ -530,7 +589,7 @@ export default function About() {
             style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 72, alignItems: 'center' }}
           >
 
-            {/* ── LEFT: 3D Image ── */}
+            {/* ── LEFT: 3D Image Card ── */}
             <div
               ref={imageRef}
               style={{
@@ -540,14 +599,12 @@ export default function About() {
                 transition: 'opacity 0.9s cubic-bezier(.22,1,.36,1), transform 0.9s cubic-bezier(.22,1,.36,1)',
               }}
             >
-              {/* Floating chip top-right */}
               <div className="abt-chips">
                 <FloatingChip
                   top={20} right={-20} delay="0s" hue={195}
                   title="INOVAÇÃO" value="Contínua"
                   icon={<svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.82m5.84-2.56a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.82m2.56-5.84a14.98 14.98 0 00-2.58 5.84m2.699 2.7L3 3l4.2 15.8L21 21l-5.3-4.5z" /></svg>}
                 />
-                {/* Floating chip bottom-left */}
                 <FloatingChip
                   bottom={48} left={-24} delay="2s" hue={265}
                   title="BASE" value="Beira, Moçambique"
@@ -555,7 +612,7 @@ export default function About() {
                 />
               </div>
 
-              {/* Rotating ring behind card */}
+              {/* Rotating rings behind card */}
               <div style={{
                 position: 'absolute', width: 340, height: 340, borderRadius: '50%',
                 border: '1px solid hsla(195,80%,60%,0.08)',

@@ -200,7 +200,7 @@ export default function SplashScreen() {
             <div className="sp-ring2" />
             <div className="sp-logo-circle">
               <Image
-                src="/images/logo10.png"
+                src="/images/logo11.png"
                 alt="Z-Systems Logo"
                 width={64}
                 height={64}
